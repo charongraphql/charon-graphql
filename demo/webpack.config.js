@@ -1,9 +1,11 @@
+const path = require('path');
+
 module.exports = {
   mode: 'development',
-  entry: 'src/index.js',
+  entry: './client/index.js',
   output: {
-    path: `${__dirname}/static`,
-    filename: './index.html.js',
+    path: path.join(__dirname, '/dist'),
+    filename: 'bundle.js',
   },
   module: {
     rules: [
@@ -12,12 +14,9 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: [
-              'env',
-              'react',
-            ],
-          },
+        },
+        resolve: {
+          extensions: ['*', '.js', '.jsx'],
         },
       },
       {
