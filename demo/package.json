@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "start:dev": "webpack-dev-server",
+    "dev": "webpack-dev-server",
     "build": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
+    "react-hot-loader": "^4.6.5",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
