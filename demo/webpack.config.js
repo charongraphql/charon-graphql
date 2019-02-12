@@ -1,4 +1,5 @@
 const path = require('path');
+const { HotModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -28,4 +29,11 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    contentBase: './dist',
+    hot: true,
+  },
+  plugins: [
+    new HotModuleReplacementPlugin(),
+  ],
 };
