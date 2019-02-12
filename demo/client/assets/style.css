@@ -1,0 +1,25 @@
+.app {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+  height: 100vh;
+  background-color: red;
+ }
+ 
+ .demo-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: blue;
+ }
+ 
+ .demo-app-view {
+  background-color: orange;
+ }
+ 
+ .demo-tools {
+  background-color: green;
+ }
+ 
+ #root {
+  height: 100vh;
+  background-color: aqua;
+ }
