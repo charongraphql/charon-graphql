@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 .app {
   display: grid;
   grid-template-rows: 100px 1fr;

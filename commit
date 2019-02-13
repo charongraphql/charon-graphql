@@ -1,0 +1,16 @@
+<title – If applied, this commit will ___________>
+setup graphql schema, and query one listing"
+––––––––––––––––––––––––––––––––––––––––––––––––––|–––––––––––––––––––––
+
+<body – explain WHAT was done and WHY it was implemented>
+
+Describe why a change is being made.
+How does it address the issue?
+What effects does the patch have?
+- Do not assume the reviewer understands what the original problem was.
+- Do not assume the code is self-evident/self-documenting.
+
+Read the commit message to see if it hints at improved code structure.
+The first commit line is the most important.
+
+––––––––––––––––––––––––––––––––––––––––––––––––––|–––––––––––––––––––––
