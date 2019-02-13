@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const Listing = () => (
+const Listing = ({ title, author }) => (
   <div className="listing">
-  <h3> yo from Listing</h3>
+    <h3>{title}</h3>
+    <p>{author}</p>
   </div>
 );
-
 
 export default Listing;
