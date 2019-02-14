@@ -1,17 +1,22 @@
 body {
   margin: 0;
 }
+#root {
+  background-color: green;
+  width: 100%;
+  height: 100vh;
+}
+
 .app {
   display: grid;
-  grid-template-rows: 100px 1fr;
-  height: 100vh;
-
+  grid-template-rows: 80px 1fr;
   background-color: red;
+  height: 100vh;
 }
 
 .demo-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 3fr 1fr;
   background-color: blue;
 }
 
@@ -20,10 +25,29 @@ body {
 }
 
 .demo-tools {
-  background-color: green;
+  background-color: white;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  /* max-height: 100vh - 80px; */
+  height: (100vh - 80px);
 }
 
-#root {
-  height: 100vh;
-  background-color: aqua;
+.state-display {
+  background: #ddd;
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+}
+
+.state-display h1 {
+  align-self: center;
+  margin-bottom: 0;
+}
+
+.json-view {
+  /* border: 1px solid black; */
+
+  margin-left: 1rem;
+  margin-right: 1rem;
+  min-width: 275px;
 }

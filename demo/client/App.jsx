@@ -16,10 +16,10 @@ const App = () => (
       <nav>
         {' '}
         <span>demo 1</span> 
-{' '}
-<span>demo 2</span> 
-{' '}
-<span>demo 3</span>
+        {' '}
+        <span>demo 2</span> 
+        {' '}
+        <span>demo 3</span>
       </nav>
 
       <DemoContainer />
