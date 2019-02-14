@@ -24,6 +24,7 @@ const ListingsContainer = (props) => {
         },
       ],
     });
+    
   };
 
   const getAllListing = () => listings.map(listing => (

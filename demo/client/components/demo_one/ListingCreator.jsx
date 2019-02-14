@@ -7,9 +7,30 @@ import {
 } from '../../queries/queries';
 
 const ListingCreator = (props) => {
+  const [initialized, setInitialized] = useState(false);
   const [listingsCount, setListingsCount] = useState(0);
+
+  useEffect(() => {
+    if (!props.getListingsQuery.loading && !initialized) {
+      setListingsCount(props.getListingsQuery.listings.length);
+      setInitialized(true);
+    }
+  });
+
   const [title, setTitle] = useState('');
   const [authorId, setAuthorId] = useState('');
+
+  const [titleError, setTitleError] = useState('❌');
+  const [authorError, setAuthorError] = useState('❌');
+
+  useEffect(() => {
+    if (!title) {
+      setTitleError('❌');
+    }
+    if (!authorId || authorId === 'Select Author') {
+      setAuthorError('❌');
+    }
+  });
 
   const addListing = (e) => {
     e.preventDefault();
@@ -32,11 +53,7 @@ const ListingCreator = (props) => {
         // reset title to empty
         setTitle('');
         setAuthorId('');
-      } else {
-        window.alert('select an author');
       }
-    } else {
-      window.alert('needs title');
     }
   };
 
@@ -52,12 +69,18 @@ const ListingCreator = (props) => {
     ));
   };
 
+  const errorMessage = (error) => {
+    if (error) return error;
+    return '✅';
+  };
+
   return (
     <div className="listing-creator">
       <div>
-        Total Listings:
-        {listingsCount}
-      </div>
+Total Listings:
+{' '}
+{listingsCount}
+</div>
       <form onSubmit={addListing}>
         <div className="field">
           <label>Title: </label>
@@ -66,16 +89,27 @@ const ListingCreator = (props) => {
             name="title"
             placeholder=' "Large Trampoline" '
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              setTitleError('✅');
+            }}
           />
+          <span>{titleError}</span>
         </div>
 
         <div className="field">
           <label>Author: </label>
-          <select value={authorId} onChange={e => setAuthorId(e.target.value)}>
+          <select
+            value={authorId}
+            onChange={(e) => {
+              setAuthorId(e.target.value);
+              setAuthorError('✅');
+            }}
+          >
             <option>Select Author</option>
             {displayAuthors()}
           </select>
+          <span>{authorError}</span>
         </div>
 
         <input type="submit" value="+" />
@@ -87,4 +121,5 @@ const ListingCreator = (props) => {
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
   graphql(addListingMutation, { name: 'addListingMutation' }),
+  graphql(getListingsQuery, { name: 'getListingsQuery' }),
 )(ListingCreator);
