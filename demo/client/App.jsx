@@ -3,7 +3,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 // Components
-
+import Gradient from './components/Gradient';
 import Header from './components/Header';
 import DemoContainer from './components/DemoContainer';
 
@@ -13,12 +13,14 @@ const client = new ApolloClient({
 });
 
 const App = () => (
-  <ApolloProvider client={client}>
-    <div className="app">
-      <Header />
-      <DemoContainer />
-    </div>
-  </ApolloProvider>
+  <Gradient>
+    <ApolloProvider client={client}>
+      <div className="app">
+        <Header />
+        <DemoContainer />
+      </div>
+    </ApolloProvider>
+  </Gradient>
 );
 
 export default App;
