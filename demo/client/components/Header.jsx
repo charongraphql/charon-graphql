@@ -4,7 +4,9 @@ import Nav from './Nav';
 
 const Header = props => (
   <header className="header">
-    <p>Header</p>
+    <div id="logo-container">
+      <h1>Charon GraphQL</h1>
+    </div>
 
     <Nav />
   </header>
