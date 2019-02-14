@@ -6,34 +6,40 @@ import Listing from './Listing';
 import Pagination from '../Pagination';
 
 const ListingsContainer = (props) => {
-  const [listings, setListings] = useState([]);
+  // const [listings, setListings] = useState([]);
+  const [initialized, setInitialized] = useState(false);
 
   // component did mount, setListing to fetched data.
   useEffect(() => {
-    if (!props.getListingsQuery.loading) {
-      setListings(props.getListingsQuery.listings);
+    if (!props.getListingsQuery.loading && !initialized) {
+      props.setListings(props.getListingsQuery.listings);
+      setInitialized(true);
     }
   });
 
-  const deleteListing = (listingId) => {
+  const deleteListing = (listingId, index) => {
     props.deleteListingMutation({
       variables: {
         id: listingId,
       },
-      refetchQueries: [
-        {
-          query: getListingsQuery,
-        },
-      ],
+      // refetchQueries: [
+      //   {
+      //     query: getListingsQuery,
+      //   },
+      // ],
     });
+    const newListings = props.listings.slice();
+    newListings.splice(index, 1);
+    props.setListings(newListings);
   };
 
-  const getAllListing = () => listings.map(listing => (
-    <Listing
+  const getAllListing = () => props.listings.map((listing, index) => (
+      <Listing
         key={listing.id}
         listing_id={listing.id}
         title={listing.title}
         author={listing.author.name}
+        index={index}
         deleteListing={deleteListing}
       />
   ));
