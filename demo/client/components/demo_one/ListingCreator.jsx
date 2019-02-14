@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { getAuthorsQuery, addListingMutation } from '../../queries/queries';
+import {
+  getAuthorsQuery,
+  addListingMutation,
+  getListingsQuery,
+} from '../../queries/queries';
 
 const ListingCreator = (props) => {
   const [listingsCount, setListingsCount] = useState(0);
   const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
+  const [authorId, setAuthorId] = useState('');
 
   const addListing = (e) => {
     e.preventDefault();
     // TODO: send data to db w/ author_id
     if (title) {
-      if (author) {
+      if (authorId) {
+        props.addListingMutation({
+          variables: {
+            title,
+            authorId,
+          },
+          refetchQueries: [
+            {
+              query: getListingsQuery,
+            },
+          ],
+        });
         // increment listingCount
         setListingsCount(listingsCount + 1);
         // reset title to empty
         setTitle('');
-        setAuthor('');
+        setAuthorId('');
+      } else {
+        window.alert('select an author');
       }
     } else {
       window.alert('needs title');
@@ -24,7 +41,7 @@ const ListingCreator = (props) => {
   };
 
   const displayAuthors = () => {
-    const { data } = props;
+    const data = props.getAuthorsQuery;
     if (data.loading) {
       return <option disabled>loading authors...</option>;
     }
@@ -47,7 +64,7 @@ const ListingCreator = (props) => {
           <input
             type="text"
             name="title"
-            placeholder=" Large Trampoline "
+            placeholder=' "Large Trampoline" '
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
@@ -55,7 +72,7 @@ const ListingCreator = (props) => {
 
         <div className="field">
           <label>Author: </label>
-          <select onChange={e => setAuthor(e.target.value)}>
+          <select value={authorId} onChange={e => setAuthorId(e.target.value)}>
             <option>Select Author</option>
             {displayAuthors()}
           </select>

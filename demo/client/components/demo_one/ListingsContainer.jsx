@@ -14,16 +14,16 @@ const ListingsContainer = (props) => {
   });
 
   const deleteListing = (listingId) => {
-    props.deleteListingMutation({
-      variables: {
-        id: listingId,
-      },
-      refetchQueries: [
-        {
-          query: getBooksQuery
-        }
-      ]
-    });
+    // props.deleteListingMutation({
+    //   variables: {
+    //     id: listingId,
+    //   },
+    //   refetchQueries: [
+    //     {
+    //       query: getBooksQuery
+    //     }
+    //   ]
+    // });
 
     const newListings = listings.slice();
     newListings.splice(index, 1);
