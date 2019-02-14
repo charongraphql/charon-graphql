@@ -9,3 +9,5 @@ node_modules
 commit.txt
 
 commit
+
+.DS_Store
