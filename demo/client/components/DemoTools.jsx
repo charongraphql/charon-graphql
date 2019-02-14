@@ -57,9 +57,9 @@ const cacheData = {
 
 const DemoTools = props => (
   <div className="demo-tools">
-    <StateDisplay title="State" data={stateData} />
-    <StateDisplay title="Cache" data={cacheData} />
-    <QueryDisplay title="Queries" data={stateData} />
+    <StateDisplay title="state" data={stateData} />
+    <StateDisplay title="cache" data={cacheData} />
+    <QueryDisplay title="queries" data={stateData} />
   </div>
 );
 

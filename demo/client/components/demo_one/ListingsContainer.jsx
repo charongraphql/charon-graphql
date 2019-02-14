@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, compose } from 'react-apollo';
-import Listing from './Listing';
+
 import { getListingsQuery, deleteListingMutation } from '../../queries/queries';
+import Listing from './Listing';
+import Pagination from '../Pagination';
 
 const ListingsContainer = (props) => {
   const [listings, setListings] = useState([]);
@@ -27,16 +29,25 @@ const ListingsContainer = (props) => {
   };
 
   const getAllListing = () => listings.map(listing => (
-      <Listing
+    <Listing
         key={listing.id}
         listing_id={listing.id}
         title={listing.title}
         author={listing.author.name}
         deleteListing={deleteListing}
       />
-    ));
+  ));
 
-  return <div className="listings-container">{getAllListing()}</div>;
+  return (
+    <div className="listings-container">
+      <div className="listings">
+        {getAllListing()}
+      </div>
+      <div className="listing-pagination">
+        <Pagination />
+      </div>
+    </div>
+  );
 };
 
 export default compose(

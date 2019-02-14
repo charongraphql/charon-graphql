@@ -1,29 +1,51 @@
 @import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|Open+Sans');
-
+html {
+  height: 100%;
+  margin: 0;
+}
 
 body {
+  height: 100%;
   margin: 0;
-  /* background: rgba(0,0,0,0); */
-  /* top right to bottom left -> purple to nothing */
-  background-image: linear-gradient(210deg, hsla(270, 100%, 20%, 1), hsla(300, 50%, 60%, 0));
   color: whitesmoke;
   font-family: 'Open Sans', sans-serif;
 }
 #root {
-  width: 100%;
-  height: 100vh;
-  /* left to right -> pink to transparent pink */
-  background-image: linear-gradient(90deg, hsla(300, 50%, 50%, 0.85), hsla(300, 100%, 50%, 0.2));
+ min-height: 100%;
+ border: 1px solid red;
 }
 
-.app {
-  padding: 0 2em;
-  display: grid;
-  grid-template-rows: 100px 1fr;
-  height: 100vh;
+.gradient {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  overflow-y: scroll;
+}
+.gradient-bottom {
+  /* top right to bottom left -> purple to nothing */
+  background-image: linear-gradient(240deg, hsla(270, 100%, 20%, 1), hsla(300, 50%, 60%, 0));
+}
+.gradient-mid {
+  /* left to right -> pink to transparent pink */
+  background-image: linear-gradient(90deg, hsla(300, 70%, 50%, 0.85), hsla(300, 100%, 50%, 0.2));
+}
+.gradient-top {
   /* bottom right to top left -> light blue to nothing */
   background-image: linear-gradient(-50deg, hsla(220, 100%, 70%, 0.8), hsla(300, 100%, 50%, 0));
 }
+
+.app {
+  /* border: 1px solid red; */
+  padding: 0 2em;
+  margin-bottom: 2em;
+  display: grid;
+  grid-template-rows: 100px 1fr;
+}
+
+
 
 a {
   text-decoration: none;
@@ -58,7 +80,6 @@ nav a {
 .demo-container {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  /* background-color: cornflowerblue; */
 }
 
 .demo-app-view {
@@ -72,61 +93,128 @@ nav a {
   /* border: 2px solid red; */
   border-radius: 6px;
   background-color: rgba(255,255,255, 0.25);
-  /* background-color: rgba(0, 0, 0, 0.25); */
   margin-top: 0;
   width: 100%;
+  /* fixed height? */
+  height: 730px;
   display: grid;
-  grid-template-rows: 150px 1fr;
+  grid-template-columns:1fr 3fr;
+  grid-template-rows: 1fr;
   justify-content: center;
 }
 
 .listing-creator {
-  border: 1px solid blue;
-  /* align-self: center;
-  justify-self: center; */
+  /* border: 1px solid blue; */
+  justify-self: center;
+  width: 100%;
 }
 
 .listings-container {
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   display: grid;
+  grid-template-rows: 1fr 100px;
+}
+
+.listings {
+  /* border: 1px solid red; */
+  display: grid;
+  justify-content: center;
+  grid-template-rows: 300px 300px;
+  grid-template-columns: 300px 300px;
   grid-gap: 10px;
   padding: 10px 0;
-  grid-template-rows: 340px 340px;
-  grid-template-columns: 300px 300px;
+}
+
+.listing-pagination {
+  justify-self: center;
+  align-self: center;
+  font-size: 25px;
+}
+
+.listing-pagination nav * {
+  margin: 10px;
 }
 
 .listing {
-  border: 1px solid lightgreen;
-
+  /* border: 1px solid lightgreen; */
+  color: black;
+  background: whitesmoke;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.listing * {
+  margin: 0;
+}
+
+.listing img {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.listing h3 {
+  margin: 0;
+}
+
+.listing button {
+  color: red;
+  width: 60%;
+  font-size: 18px;
+  font-weight: 200;
+  background: rgba(0,0,0,0);
+  /* border-width: 0px; */
+  border: 1px solid red;
+  border-radius: 3px;
+  margin-bottom: 3px;
+}
+
+
 
 .demo-tools {
   /* border: 1px solid blue; */
   display: grid;
-  grid-template-rows: repeat(3, auto);
-  /* grid-template-rows: repeat(3, 1fr); */
+  /* grid-template-rows: 36%, 36%, 28%; */
+  grid-template-rows: 250px 250px 230px;
+  align-items: start;
+  /* height: 730px; */
 }
 
 .state-display {
+  /* border: 1px solid red; */
   /* background: #ddd; */
-  /* border: 1px solid blue; */
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  padding: 0;
   min-height: 100px;
-  /* height: 200px; */
+  align-self: stretch;
+
 }
 
 .state-display h2 {
-  align-self: center;
-  margin-bottom: 0;
+  /* border: 1px solid black; */
+  font-family: 'Major Mono Display';
+  margin: 0px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .json-container {
   /* border: 1px solid black; */
   overflow-y: scroll;
-  height: 100%;
+  height: 205px;
   margin-left: 1rem;
   margin-right: 1rem;
   min-width: 275px;
+  border-radius: 5px;
+}
+
+.pagination-button {
+  font-size: 20px;
+  font-weight: 400;
+  background: rgba(0,0,0,0);
+  color: whitesmoke;
+  border-radius: 4px;
+  border: solid 0px whitesmoke
 }
 
