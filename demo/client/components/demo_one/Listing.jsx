@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const Listing = () => (
+const Listing = ({ title, author, index, deleteListing }) => (
   <div className="listing">
-  <h3> yo from Listing</h3>
+    <h3>{title}</h3>
+    <p>{author}</p>
+    <button type="button" onClick={() => deleteListing(index)}>
+      X
+    </button>
   </div>
 );
-
 
 export default Listing;
