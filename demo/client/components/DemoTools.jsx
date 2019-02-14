@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import StateDisplay from './StateDisplay';
+import QueryDisplay from './QueryDisplay';
 
 
 const stateData = {
@@ -58,7 +59,7 @@ const DemoTools = props => (
   <div className="demo-tools">
     <StateDisplay title="State" data={stateData} />
     <StateDisplay title="Cache" data={cacheData} />
-    <StateDisplay title="Queries" data={stateData} />
+    <QueryDisplay title="Queries" data={stateData} />
   </div>
 );
 
