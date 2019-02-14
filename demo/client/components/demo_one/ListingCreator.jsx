@@ -7,18 +7,26 @@ import {
 } from '../../queries/queries';
 
 const ListingCreator = (props) => {
-  const [initialized, setInitialized] = useState(false);
   const [listingsCount, setListingsCount] = useState(0);
+
+  useEffect(() => {
+    if (!props.getListingsQuery.loading) {
+      setListingsCount(props.listings.length);
+    }
+  });
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (!props.getListingsQuery.loading && !initialized) {
       setListingsCount(props.getListingsQuery.listings.length);
+      // console.log('this should only be called when page refreshes');
       setInitialized(true);
     }
   });
 
   const [title, setTitle] = useState('');
   const [authorId, setAuthorId] = useState('');
+  const [authorName, setAuthorName] = useState('');
 
   const [titleError, setTitleError] = useState('❌');
   const [authorError, setAuthorError] = useState('❌');
@@ -42,12 +50,20 @@ const ListingCreator = (props) => {
             title,
             authorId,
           },
-          refetchQueries: [
-            {
-              query: getListingsQuery, // why dont we need to bind this to component?
-            },
-          ],
+          // refetchQueries: [
+          //   {
+          //     query: getListingsQuery, // why dont we need to bind this to component?
+          //   },
+          // ],
         });
+        // updating state with new listing
+        const newListing = props.listings.slice();
+        newListing.push({
+          id: newListing.length, // change this later
+          title,
+          author: { id: authorId, name: authorName },
+        });
+        props.setListings(newListing);
         // increment listingCount
         setListingsCount(listingsCount + 1);
         // reset title to empty
@@ -63,15 +79,10 @@ const ListingCreator = (props) => {
       return <option disabled>loading authors...</option>;
     }
     return data.authors.map(author => (
-      <option key={author.id} value={author.id}>
+      <option key={author.id} value={[author.id, author.name]}>
         {author.name}
       </option>
     ));
-  };
-
-  const errorMessage = (error) => {
-    if (error) return error;
-    return '✅';
   };
 
   return (
@@ -102,7 +113,12 @@ Total Listings:
           <select
             value={authorId}
             onChange={(e) => {
-              setAuthorId(e.target.value);
+              setAuthorId(
+                e.target.value.substring(0, e.target.value.indexOf(',')),
+              );
+              setAuthorName(
+                e.target.value.substring(e.target.value.indexOf(',') + 1),
+              );
               setAuthorError('✅');
             }}
           >
