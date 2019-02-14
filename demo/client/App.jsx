@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
+
+import Header from './components/Header';
 import DemoContainer from './components/DemoContainer';
 
 const App = () => (
   <div className="app">
-    <nav>
-      <span>demo 1</span>
-      {' '}
-      <span>demo 2</span>
-      {' '}
-      <span>demo 3</span>
-    </nav>
-
+    <Header />
     <DemoContainer />
   </div>
 );
