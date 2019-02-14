@@ -8,41 +8,38 @@ const ListingsContainer = (props) => {
 
   // component did mount, setListing to fetched data.
   useEffect(() => {
-    if (!props.data.loading) {
-      setListings(props.data.listings);
+    if (!props.getListingsQuery.loading) {
+      setListings(props.getListingsQuery.listings);
     }
   });
 
   const deleteListing = (listingId) => {
-    // props.deleteListingMutation({
-    //   variables: {
-    //     id: listingId,
-    //   },
-    //   refetchQueries: [
-    //     {
-    //       query: getBooksQuery
-    //     }
-    //   ]
-    // });
-
-    const newListings = listings.slice();
-    newListings.splice(index, 1);
-    // updating our listings state
-    setListings(newListings);
-    // update the listings database
+    props.deleteListingMutation({
+      variables: {
+        id: listingId,
+      },
+      refetchQueries: [
+        {
+          query: getListingsQuery,
+        },
+      ],
+    });
   };
 
   const getAllListing = () => listings.map(listing => (
-    <Listing
-      key={listing.id}
-      listing_id={listing.id}
-      title={listing.title}
-      author={listing.author.name}
-      deleteListing={deleteListing}
-    />
-  ));
+      <Listing
+        key={listing.id}
+        listing_id={listing.id}
+        title={listing.title}
+        author={listing.author.name}
+        deleteListing={deleteListing}
+      />
+    ));
 
   return <div className="listings-container">{getAllListing()}</div>;
 };
 
-export default graphql(getListingsQuery)(ListingsContainer);
+export default compose(
+  graphql(getListingsQuery, { name: 'getListingsQuery' }),
+  graphql(deleteListingMutation, { name: 'deleteListingMutation' }),
+)(ListingsContainer);

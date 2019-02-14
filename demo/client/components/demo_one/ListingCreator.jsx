@@ -23,7 +23,7 @@ const ListingCreator = (props) => {
           },
           refetchQueries: [
             {
-              query: getListingsQuery,
+              query: getListingsQuery, // why dont we need to bind this to component?
             },
           ],
         });
