@@ -5,7 +5,7 @@ import ReactJson from 'react-json-view';
 
 const StateDisplay = ({ data, title }) => (
   <div className="state-display">
-    <h1>{title}</h1>
+    <h2>{title}</h2>
     <div className="json-view">
       <ReactJson
         src={data}

@@ -3,7 +3,6 @@ import CharonsList from './demo_one/CharonsList';
 
 const DemoAppView = () => (
   <div className="demo-app-view">
-    This is the Demo App View
     <CharonsList />
   </div>
 );
