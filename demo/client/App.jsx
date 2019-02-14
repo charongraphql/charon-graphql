@@ -3,6 +3,8 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 // Components
+
+import Header from './components/Header';
 import DemoContainer from './components/DemoContainer';
 
 // Apollo Client Setup
@@ -13,15 +15,7 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <div className="app">
-      <nav>
-        {' '}
-        <span>demo 1</span> 
-        {' '}
-        <span>demo 2</span> 
-        {' '}
-        <span>demo 3</span>
-      </nav>
-
+      <Header />
       <DemoContainer />
     </div>
   </ApolloProvider>
