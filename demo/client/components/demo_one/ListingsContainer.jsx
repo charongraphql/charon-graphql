@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, compose } from 'react-apollo';
 import Listing from './Listing';
-import { getListingsQuery } from '../../queries/queries';
+import { getListingsQuery, deleteListingMutation } from '../../queries/queries';
 
 const ListingsContainer = (props) => {
-  console.log('listings;', props.data);
   const [listings, setListings] = useState([]);
 
   // component did mount, setListing to fetched data.
@@ -14,7 +13,18 @@ const ListingsContainer = (props) => {
     }
   });
 
-  const deleteListing = (index) => {
+  const deleteListing = (listingId) => {
+    props.deleteListingMutation({
+      variables: {
+        id: listingId,
+      },
+      refetchQueries: [
+        {
+          query: getBooksQuery
+        }
+      ]
+    });
+
     const newListings = listings.slice();
     newListings.splice(index, 1);
     // updating our listings state
@@ -22,12 +32,12 @@ const ListingsContainer = (props) => {
     // update the listings database
   };
 
-  const getAllListing = () => listings.map((listing, index) => (
+  const getAllListing = () => listings.map(listing => (
     <Listing
       key={listing.id}
+      listing_id={listing.id}
       title={listing.title}
       author={listing.author.name}
-      index={index}
       deleteListing={deleteListing}
     />
   ));
