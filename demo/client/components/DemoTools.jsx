@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import StateDisplay from './StateDisplay';
 
+
 const stateData = {
   number: 5182836,
+  float: 3.14159,
+  notNumber: NaN,
+  date: new Date(Date.now()).toDateString(),
   string: '٩(｡•́‿•̀｡)۶',
   boolean: true,
   'undefined val': undefined,
