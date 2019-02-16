@@ -6,7 +6,9 @@ const jsonStyle = {
   // borderColor: 'white',
   // borderStyle: 'solid',
   backgroundColor: 'rgba(0, 0, 0, 0.25)',
+  borderRadius: '5px',
   padding: '3px 10px',
+  // zIndex: '-10',
 };
 
 const StateDisplay = ({ data, title }) => (
