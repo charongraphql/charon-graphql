@@ -20,8 +20,8 @@ const ListingsContainer = props => {
   const deleteListing = (listingId, index) => {
     props.deleteListingMutation({
       variables: {
-        id: listingId
-      }
+        id: listingId,
+      },
       // refetchQueries: [
       //   {
       //     query: getListingsQuery,
@@ -57,5 +57,5 @@ const ListingsContainer = props => {
 
 export default compose(
   graphql(getListingsQuery, { name: 'getListingsQuery' }),
-  graphql(deleteListingMutation, { name: 'deleteListingMutation' })
+  graphql(deleteListingMutation, { name: 'deleteListingMutation' }),
 )(ListingsContainer);

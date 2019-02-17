@@ -14,8 +14,8 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    graphiql: true
-  })
+    graphiql: true,
+  }),
 );
 
 app.use(express.static(path.resolve(__dirname, '../dist')));

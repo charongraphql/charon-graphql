@@ -44,8 +44,8 @@ const ListingCreator = props => {
         props.addListingMutation({
           variables: {
             title,
-            authorId
-          }
+            authorId,
+          },
           // refetchQueries: [
           //   {
           //     query: getListingsQuery, // why dont we need to bind this to component?
@@ -57,7 +57,7 @@ const ListingCreator = props => {
         newListing.push({
           id: newListing.length, // change this later
           title,
-          author: { id: authorId, name: authorName }
+          author: { id: authorId, name: authorName },
         });
         props.setListings(newListing);
         // reset title to empty
@@ -81,7 +81,9 @@ const ListingCreator = props => {
 
   return (
     <div className="listing-creator">
-      <div>Total Listings: {listingsCount}</div>
+      <div>
+        <h3>Total Listings:</h3> <span>{listingsCount}</span>
+      </div>
       <form onSubmit={addListing}>
         <div className="field">
           <label>Title: </label>
@@ -123,5 +125,5 @@ const ListingCreator = props => {
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
   graphql(addListingMutation, { name: 'addListingMutation' }),
-  graphql(getListingsQuery, { name: 'getListingsQuery' })
+  graphql(getListingsQuery, { name: 'getListingsQuery' }),
 )(ListingCreator);
