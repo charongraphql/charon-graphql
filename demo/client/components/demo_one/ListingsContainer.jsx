@@ -18,6 +18,7 @@ const ListingsContainer = props => {
   });
 
   const deleteListing = (listingId, index) => {
+    // delete listing from database
     props.deleteListingMutation({
       variables: {
         id: listingId,
@@ -28,11 +29,14 @@ const ListingsContainer = props => {
       //   },
       // ],
     });
+
+    // deleting the listing from displayed props
     const newListings = props.listings.slice();
     newListings.splice(index, 1);
     props.setListings(newListings);
   };
 
+  // mapping props to components for display
   const getAllListing = () =>
     props.listings.map((listing, index) => (
       <Listing
@@ -47,7 +51,10 @@ const ListingsContainer = props => {
 
   return (
     <div className="listings-container">
-      <div className="listings">{getAllListing()}</div>
+      <div className="listings">
+        {/* displaying mapped components */}
+        {getAllListing()}
+      </div>
       <div className="listing-pagination">
         <Pagination />
       </div>
@@ -56,6 +63,8 @@ const ListingsContainer = props => {
 };
 
 export default compose(
+  // making the queries/mutations available as props
   graphql(getListingsQuery, { name: 'getListingsQuery' }),
   graphql(deleteListingMutation, { name: 'deleteListingMutation' }),
+  // queries are bound to this component
 )(ListingsContainer);
