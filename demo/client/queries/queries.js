@@ -25,7 +25,7 @@ const getListingsQuery = gql`
       author {
         id
         name
-      } 
+      }
     }
   }
 `;
@@ -54,7 +54,7 @@ const addListingMutation = gql`
 `;
 
 const deleteListingMutation = gql`
-  mutation($id:ID!) {
+  mutation($id: ID!) {
     deleteListing(id: $id) {
       title
       author {
@@ -65,7 +65,6 @@ const deleteListingMutation = gql`
 `;
 
 // export default queries;
-
 export {
   getListingsQuery, getAuthorsQuery, addListingMutation, deleteListingMutation,
 };

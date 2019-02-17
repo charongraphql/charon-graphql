@@ -11,3 +11,5 @@ commit.txt
 commit
 
 .DS_Store
+
+coverage

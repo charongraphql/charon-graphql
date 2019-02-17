@@ -5,11 +5,11 @@ import { getListingsQuery, deleteListingMutation } from '../../queries/queries';
 import Listing from './Listing';
 import Pagination from '../Pagination';
 
-const ListingsContainer = (props) => {
+const ListingsContainer = props => {
   // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
 
-  // component did mount, setListing to fetched data.
+  // component did mount/update, setListing to fetched data.
   useEffect(() => {
     if (!props.getListingsQuery.loading && !initialized) {
       props.setListings(props.getListingsQuery.listings);
@@ -21,8 +21,8 @@ const ListingsContainer = (props) => {
     // delete listing from database
     props.deleteListingMutation({
       variables: {
-        id: listingId,
-      },
+        id: listingId
+      }
       // refetchQueries: [
       //   {
       //     query: getListingsQuery,

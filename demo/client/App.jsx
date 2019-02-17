@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
@@ -9,11 +9,13 @@ import DemoContainer from './components/DemoContainer';
 
 // Apollo Client Setup
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  // server endpoint
+  uri: 'http://localhost:4000/graphql'
 });
 
 const App = () => (
   <Gradient>
+    {/* makes graphQL/queries accessible to bind to components */}
     <ApolloProvider client={client}>
       <div className="app">
         <Header />

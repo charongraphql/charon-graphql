@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, compose } from 'react-apollo';
-import {
-  getAuthorsQuery,
-  addListingMutation,
-  getListingsQuery,
-} from '../../queries/queries';
+import { getAuthorsQuery, addListingMutation, getListingsQuery } from '../../queries/queries';
 
-const ListingCreator = (props) => {
+const ListingCreator = props => {
   const [listingsCount, setListingsCount] = useState(0);
 
   // combo of componentDidMount and componentDidUpdate
@@ -45,7 +41,7 @@ const ListingCreator = (props) => {
     }
   });
 
-  const addListing = (e) => {
+  const addListing = e => {
     e.preventDefault();
     // TODO: send data to db w/ author_id
     if (title) {
@@ -55,6 +51,7 @@ const ListingCreator = (props) => {
         props.addListingMutation({
           variables: {
             title,
+
             authorId,
           },
           // TODO: check if there's a way to have addListingMutation return newly created listing without making a second call
@@ -70,11 +67,9 @@ const ListingCreator = (props) => {
         newListing.push({
           id: newListing.length, // replace with returned id
           title,
-          author: { id: authorId, name: authorName },
+          author: { id: authorId, name: authorName }
         });
         props.setListings(newListing);
-        // increment listingCount
-        setListingsCount(listingsCount + 1);
         // reset title to empty
         setTitle('');
         setAuthorId('');
@@ -101,13 +96,7 @@ const ListingCreator = (props) => {
   return (
     <div className="listing-creator">
       <div>
-        <h3>
-Total Listings:
-          {' '}
-          <span>{listingsCount}</span> 
-{' '}
-{/*style this later */}
-                </h3>
+      <h3>Total Listings:</h3> <span>{listingsCount}</span>
       </div>
       <form onSubmit={addListing}>
         <div className="field">
@@ -117,7 +106,7 @@ Total Listings:
             name="title"
             placeholder="Enter Title"
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
               setTitleError('✅');
             }}
@@ -129,13 +118,9 @@ Total Listings:
           <label>Author: </label>
           <select
             value={authorId}
-            onChange={(e) => {
-              setAuthorId(
-                e.target.value.substring(0, e.target.value.indexOf(',')),
-              );
-              setAuthorName(
-                e.target.value.substring(e.target.value.indexOf(',') + 1),
-              );
+            onChange={e => {
+              setAuthorId(e.target.value.substring(0, e.target.value.indexOf(',')));
+              setAuthorName(e.target.value.substring(e.target.value.indexOf(',') + 1));
               setAuthorError('✅');
             }}
           >
@@ -154,5 +139,5 @@ Total Listings:
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
   graphql(addListingMutation, { name: 'addListingMutation' }),
-  graphql(getListingsQuery, { name: 'getListingsQuery' }),
+  graphql(getListingsQuery, { name: 'getListingsQuery' })
 )(ListingCreator);
