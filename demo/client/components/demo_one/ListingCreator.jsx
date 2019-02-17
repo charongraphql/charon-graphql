@@ -60,8 +60,6 @@ const ListingCreator = props => {
           author: { id: authorId, name: authorName }
         });
         props.setListings(newListing);
-        // increment listingCount
-        setListingsCount(listingsCount + 1);
         // reset title to empty
         setTitle('');
         setAuthorId('');

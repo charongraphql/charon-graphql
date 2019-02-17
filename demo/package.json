@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
+  "jest": {
+    "verbose": true,
+    "setupFilesAfterEnv": ["<rootDir>__tests__/setup/setupEnzyme.js"],
+    "watchPathIgnorePatterns": ["<rootDir>/node_modules/", "<rootDir>/__tests__/setup"]
+  },
   "scripts": {
     "start": "nodemon server/index.js",
     "dev": "webpack-dev-server",
     "build": "webpack -w",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --coverage"
   },
   "author": "",
   "license": "ISC",
