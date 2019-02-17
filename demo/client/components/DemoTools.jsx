@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import StateDisplay from './StateDisplay';
 import QueryDisplay from './QueryDisplay';
 
-
+// dummy data
 const stateData = {
   number: 5182836,
   float: 3.14159,
@@ -27,6 +27,7 @@ const stateData = {
   },
 };
 
+// dummy data
 const cacheData = {
   'Post:5': {
     id: 5,
