@@ -27,7 +27,6 @@ const ListingCreator = props => {
   // set initial state for query inputs
   const [title, setTitle] = useState('');
   const [authorId, setAuthorId] = useState('');
-  const [authorName, setAuthorName] = useState('');
   // input validation
   const [titleError, setTitleError] = useState('❌');
   const [authorError, setAuthorError] = useState('❌');
@@ -94,7 +93,7 @@ const ListingCreator = props => {
       // jsx / html issue
       // option tag can only take one value attribute
       // is there a better way to store auth id and name ?
-      <option key={author.id} value={[author.id, author.name]}>
+      <option key={author.id} value={author.id}>
         {author.name}
       </option>
     ));
@@ -126,8 +125,7 @@ const ListingCreator = props => {
           <select
             value={authorId}
             onChange={e => {
-              setAuthorId(e.target.value.substring(0, e.target.value.indexOf(',')));
-              setAuthorName(e.target.value.substring(e.target.value.indexOf(',') + 1));
+              setAuthorId(e.target.value);
               setAuthorError('✅');
             }}
           >
