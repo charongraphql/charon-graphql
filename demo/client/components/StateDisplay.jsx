@@ -1,5 +1,4 @@
 import React from 'react';
-import JSONTree from 'react-json-tree';
 import ReactJson from 'react-json-view';
 
 const jsonStyle = {

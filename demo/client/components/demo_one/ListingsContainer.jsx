@@ -5,11 +5,11 @@ import { getListingsQuery, deleteListingMutation } from '../../queries/queries';
 import Listing from './Listing';
 import Pagination from '../Pagination';
 
-const ListingsContainer = (props) => {
+const ListingsContainer = props => {
   // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
 
-  // component did mount, setListing to fetched data.
+  // component did mount/update, setListing to fetched data.
   useEffect(() => {
     if (!props.getListingsQuery.loading && !initialized) {
       props.setListings(props.getListingsQuery.listings);
@@ -20,8 +20,8 @@ const ListingsContainer = (props) => {
   const deleteListing = (listingId, index) => {
     props.deleteListingMutation({
       variables: {
-        id: listingId,
-      },
+        id: listingId
+      }
       // refetchQueries: [
       //   {
       //     query: getListingsQuery,
@@ -33,7 +33,8 @@ const ListingsContainer = (props) => {
     props.setListings(newListings);
   };
 
-  const getAllListing = () => props.listings.map((listing, index) => (
+  const getAllListing = () =>
+    props.listings.map((listing, index) => (
       <Listing
         key={listing.id}
         listing_id={listing.id}
@@ -42,13 +43,11 @@ const ListingsContainer = (props) => {
         index={index}
         deleteListing={deleteListing}
       />
-  ));
+    ));
 
   return (
     <div className="listings-container">
-      <div className="listings">
-        {getAllListing()}
-      </div>
+      <div className="listings">{getAllListing()}</div>
       <div className="listing-pagination">
         <Pagination />
       </div>
@@ -58,5 +57,5 @@ const ListingsContainer = (props) => {
 
 export default compose(
   graphql(getListingsQuery, { name: 'getListingsQuery' }),
-  graphql(deleteListingMutation, { name: 'deleteListingMutation' }),
+  graphql(deleteListingMutation, { name: 'deleteListingMutation' })
 )(ListingsContainer);
