@@ -1,6 +1,22 @@
 import { gql } from 'apollo-boost';
 
 // Queries
+// const queries = {
+//   getListingsQuery: gql`
+//   {
+//     listings {
+//       id
+//       title
+//       author {
+//         id
+//         name
+//       }
+//     }
+//   }
+// `,
+// };
+
+
 const getListingsQuery = gql`
   {
     listings {
@@ -10,7 +26,6 @@ const getListingsQuery = gql`
         id
         name
       }
-    
     }
   }
 `;
@@ -26,7 +41,9 @@ const getAuthorsQuery = gql`
 
 // Mutations
 const addListingMutation = gql`
+  # defining arguments and types for mutation
   mutation($title:String!, $authorId:ID!) {
+    # consuming the arguments in the actual mutation
     addListing(title: $title, author_id: $authorId) {
       title
       author {
@@ -37,7 +54,7 @@ const addListingMutation = gql`
 `;
 
 const deleteListingMutation = gql`
-  mutation($id:ID!) {
+  mutation($id: ID!) {
     deleteListing(id: $id) {
       title
       author {
@@ -47,6 +64,7 @@ const deleteListingMutation = gql`
   }
 `;
 
+// export default queries;
 export {
   getListingsQuery, getAuthorsQuery, addListingMutation, deleteListingMutation,
 };
