@@ -200,13 +200,17 @@ nav a {
 }
 
 .json-container {
+  /* border: 1px solid rgba(0,0,0,0.1); */
   /* border: 1px solid black; */
+  border-radius: 5px;
+  overflow: hidden;
   overflow-y: scroll;
   height: 205px;
   margin-left: 1rem;
   margin-right: 1rem;
   min-width: 275px;
   border-radius: 5px;
+  /* z-index: 10; */
 }
 
 .pagination-button {
