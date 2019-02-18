@@ -1,14 +1,14 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 
 const Nav = props => (
-  <nav>
-    <a href="">home</a>
-    <a href="">About</a>
-    <a href="">docs</a>
-    <a href="">github</a>
-    <a href="">npm</a>
-  </nav>
+  <div>
+    <Link to="/">home</Link>
+    <Link to="/about">About</Link>
+    <Link to="/docs">docs</Link>
+    <Link to="/github">github</Link>
+    <Link to="/npm">npm</Link>
+  </div>
 );
 
 export default Nav;

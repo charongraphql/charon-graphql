@@ -3,16 +3,16 @@ import { shallow, mount } from 'enzyme';
 import Listing from '../../../client/components/demo_one/Listing';
 
 describe('Listing', () => {
-  it('should render without throwing an error', () => {
+  test('should render without throwing an error', () => {
     expect(shallow(<Listing />).find('.listing')).toBeDefined();
     expect(shallow(<Listing />).is('.listing')).toBe(true);
   });
 
-  it('should mount in a full DOM', () => {
+  test('should mount in a full DOM', () => {
     expect(mount(<Listing />).find('.listing')).toHaveLength(1);
   });
 
-  it('renders title of listing', () => {
+  test('renders title of listing', () => {
     const listing = {
       title: 'Trampoline',
       author: 'Chang',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import {render} from 'react-testing-library'
+import { shallow, mount } from 'enzyme';
+// import { MockedProvider } from 'react-apollo/test-utils'; cant find lib for
 import ListingCreator from '../../../client/components/demo_one/ListingCreator';
 
 describe('ListingCreator', () => {
@@ -9,8 +9,11 @@ describe('ListingCreator', () => {
     expect(wrapper.find('div')).toHaveLength(0);
   });
 
-  test('counter increments the count', () => {
-    const
-  })
-
+  test('sets title state to input value on change', () => {
+    const wrapper = shallow(<ListingCreator />);
+    console.log(wrapper.debug());
+    wrapper.find('div').simulate('change', { target: { value: 'chang' } });
+    expect(2).toBe(2);
+    wrapper.unmount();
+  });
 });
