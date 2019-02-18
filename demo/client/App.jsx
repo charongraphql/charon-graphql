@@ -24,6 +24,11 @@ const App = () => (
           <Header />
           <Switch>
             <Route path="/" component={DemoContainer} exact />
+            <Route path="/about" />
+            <Route path="/docs" />
+            {/* going to figure out how to open a new tab with router... */}
+            <Route path="/github" />
+            <Route path="/npm" />
             <Route component={ErrorPage} />
           </Switch>
         </div>
