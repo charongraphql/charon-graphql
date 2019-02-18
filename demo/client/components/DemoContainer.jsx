@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import DemoAppView from './DemoAppView';
 import DemoTools from './DemoTools';
 
@@ -12,6 +12,7 @@ const DemoContainer = () => (
         <Link to="/demo3">demo 3</Link>
       </div>
       <Switch>
+        <Redirect from="/" exact to="/demo1" />
         <Route
           path="/:demo"
           render={({ match }) => (
