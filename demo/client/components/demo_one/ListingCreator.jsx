@@ -27,7 +27,6 @@ const ListingCreator = props => {
   // set initial state for query inputs
   const [title, setTitle] = useState('');
   const [authorId, setAuthorId] = useState('');
-  const [authorName, setAuthorName] = useState('');
   // input validation
   const [titleError, setTitleError] = useState('❌');
   const [authorError, setAuthorError] = useState('❌');
@@ -48,31 +47,38 @@ const ListingCreator = props => {
       if (authorId) {
         // passed in from queries module
         // call to add item to db -> hits endpoint which holds schema -> once called, that sends to db
-        props.addListingMutation({
-          variables: {
-            title,
-
-            authorId,
-          },
-          // TODO: check if there's a way to have addListingMutation return newly created listing without making a second call
-          // refetchQueries: [
-          //   {
-          //     query: getListingsQuery, // why dont we need to bind this to component?
-          //   },
-          // ],
-        });
+        props
+          .addListingMutation({
+            variables: {
+              title,
+              authorId,
+            },
+            // TODO: check if there's a way to have addListingMutation return newly created listing without making a second call
+            // refetchQueries: [
+            //   {
+            //     query: getListingsQuery, // why dont we need to bind this to component?
+            //   },
+            // ],
+          })
+          .then(res => {
+            const addedListing = res.data.addListing;
+            // Hooks setState can take in a callback! why do we not need to worry about effecting state directly?
+            props.setListings(listing =>
+              listing.concat({
+                id: addedListing.id,
+                title: addedListing.title,
+                author: addedListing.author,
+              }),
+            );
+            // reset title to empty
+            setTitle('');
+            setAuthorId('');
+          })
+          .catch(err => {
+            throw err;
+          });
         // if we can get mutation to return listing we can refactor lines 68-75
         // updating state with new listing
-        const newListing = props.listings.slice();
-        newListing.push({
-          id: newListing.length, // replace with returned id
-          title,
-          author: { id: authorId, name: authorName }
-        });
-        props.setListings(newListing);
-        // reset title to empty
-        setTitle('');
-        setAuthorId('');
       }
     }
   };
@@ -87,7 +93,7 @@ const ListingCreator = props => {
       // jsx / html issue
       // option tag can only take one value attribute
       // is there a better way to store auth id and name ?
-      <option key={author.id} value={[author.id, author.name]}>
+      <option key={author.id} value={author.id}>
         {author.name}
       </option>
     ));
@@ -96,7 +102,7 @@ const ListingCreator = props => {
   return (
     <div className="listing-creator">
       <div>
-      <h3>Total Listings:</h3> <span>{listingsCount}</span>
+        <h3>Total Listings:</h3> <span>{listingsCount}</span>
       </div>
       <form onSubmit={addListing}>
         <div className="field">
@@ -119,8 +125,7 @@ const ListingCreator = props => {
           <select
             value={authorId}
             onChange={e => {
-              setAuthorId(e.target.value.substring(0, e.target.value.indexOf(',')));
-              setAuthorName(e.target.value.substring(e.target.value.indexOf(',') + 1));
+              setAuthorId(e.target.value);
               setAuthorError('✅');
             }}
           >
@@ -139,5 +144,5 @@ const ListingCreator = props => {
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
   graphql(addListingMutation, { name: 'addListingMutation' }),
-  graphql(getListingsQuery, { name: 'getListingsQuery' })
+  graphql(getListingsQuery, { name: 'getListingsQuery' }),
 )(ListingCreator);

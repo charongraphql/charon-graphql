@@ -21,8 +21,8 @@ const ListingsContainer = props => {
     // delete listing from database
     props.deleteListingMutation({
       variables: {
-        id: listingId
-      }
+        id: listingId,
+      },
       // refetchQueries: [
       //   {
       //     query: getListingsQuery,
@@ -37,16 +37,17 @@ const ListingsContainer = props => {
   };
 
   // mapping props to components for display
-  const getAllListing = () => props.listings.map((listing, index) => (
-    <Listing
-      key={listing.id}
-      listing_id={listing.id}
-      title={listing.title}
-      author={listing.author.name}
-      index={index}
-      deleteListing={deleteListing}
-    />
-  ));
+  const getAllListing = () =>
+    props.listings.map((listing, index) => (
+      <Listing
+        key={listing.id}
+        listing_id={listing.id}
+        title={listing.title}
+        author={listing.author.name}
+        index={index}
+        deleteListing={deleteListing}
+      />
+    ));
 
   return (
     <div className="listings-container">

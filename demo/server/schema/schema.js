@@ -23,7 +23,8 @@ const ListingType = new GraphQLObjectType({
       resolve(parent, args) {
         // selecting all columns from a row with specified id
         // using db.one to return an object containing one row
-        return db.one('SELECT * FROM author WHERE id = $1;', [parent.author_id])
+        return db
+          .one('SELECT * FROM author WHERE id = $1;', [parent.author_id])
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -41,7 +42,8 @@ const AuthorType = new GraphQLObjectType({
       type: new GraphQLList(ListingType),
       resolve(parent, args) {
         // db.any returns an Array of object
-        return db.any('SELECT * FROM listing WHERE author_id = $1;', [parent.id])
+        return db
+          .any('SELECT * FROM listing WHERE author_id = $1;', [parent.id])
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -57,7 +59,8 @@ const RootQuery = new GraphQLObjectType({
       type: ListingType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return db.one('SELECT * FROM listing WHERE id = $1;', [args.id])
+        return db
+          .one('SELECT * FROM listing WHERE id = $1;', [args.id])
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -67,7 +70,8 @@ const RootQuery = new GraphQLObjectType({
       type: AuthorType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return db.one('SELECT * FROM author WHERE id = $1;', [args.id])
+        return db
+          .one('SELECT * FROM author WHERE id = $1;', [args.id])
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -77,7 +81,8 @@ const RootQuery = new GraphQLObjectType({
     listings: {
       type: new GraphQLList(ListingType),
       resolve(parent, args) {
-        return db.any('SELECT * FROM listing;')
+        return db
+          .any('SELECT * FROM listing;')
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -87,7 +92,8 @@ const RootQuery = new GraphQLObjectType({
     authors: {
       type: new GraphQLList(AuthorType),
       resolve(parent, args) {
-        return db.any('SELECT * FROM author;')
+        return db
+          .any('SELECT * FROM author;')
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -106,7 +112,11 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         // returns all fields of the inserted data
-        return db.one('INSERT INTO listing(title, author_id) VALUES($1, $2) RETURNING *', [args.title, args.author_id])
+        return db
+          .one('INSERT INTO listing(title, author_id) VALUES($1, $2) RETURNING *', [
+            args.title,
+            args.author_id,
+          ])
           .then(data => data)
           .catch(e => console.log(`error: ${e}`));
       },
@@ -118,15 +128,17 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         // selecting the field that is going to get deleted before deleting.
-        return db.one('SELECT * FROM listing WHERE id = $1;', [args.id])
-          .then((data) => {
+        return db
+          .one('SELECT * FROM listing WHERE id = $1;', [args.id])
+          .then(data => {
             // trying to store the deleted field's result data (why? no reason, maybe can be used)
-            const rowCount = db.result('DELETE FROM listing WHERE id = $1', [args.id])
-            // just picking our the rowCount (the # of rows deleted: should always be one)
+            const rowCount = db
+              .result('DELETE FROM listing WHERE id = $1', [args.id])
+              // just picking our the rowCount (the # of rows deleted: should always be one)
               .then(deletedData => deletedData.rowCount)
               .catch(e => console.log(`error: ${e}`));
             // returning the SELECT query data with the DELETED result count data.
-            // rowCount promise does NOT get resolved... 
+            // rowCount promise does NOT get resolved...
             return { ...data, rowCount };
           })
           .catch(e => console.log(`error: ${e}`));
@@ -134,7 +146,6 @@ const Mutation = new GraphQLObjectType({
     },
   },
 });
-
 
 module.exports = new GraphQLSchema({
   query: RootQuery,

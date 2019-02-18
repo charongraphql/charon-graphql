@@ -12,12 +12,8 @@ WebFont.load({
   },
 });
 
-
 // hooks react app into the html
-ReactDOM.render(
-  <App />,
-  document.getElementById('root'),
-);
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // HOT MODULE RELOADING
 module.hot.accept();
