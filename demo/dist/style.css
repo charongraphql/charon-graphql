@@ -11,8 +11,8 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 #root {
- min-height: 100%;
- border: 1px solid red;
+  min-height: 100%;
+  border: 1px solid red;
 }
 
 .gradient {
@@ -45,14 +45,12 @@ body {
   grid-template-rows: 100px 1fr;
 }
 
-
-
 a {
   text-decoration: none;
   color: whitesmoke;
 }
 a:hover {
-  text-decoration: underline
+  text-decoration: underline;
 }
 
 .header {
@@ -64,7 +62,7 @@ a:hover {
   font-family: 'Major Mono Display', monospace;
 }
 
-.header h1{
+.header h1 {
   font-size: 3.5em;
   font-weight: 200;
 }
@@ -75,9 +73,16 @@ nav a {
   font-weight: 600;
 }
 
-
-
 .demo-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.demo-links {
+  grid-column: 1/3;
+}
+
+.demo-routes {
   display: grid;
   grid-template-columns: 3fr 1fr;
 }
@@ -92,13 +97,13 @@ nav a {
 .charons-list {
   /* border: 2px solid red; */
   border-radius: 6px;
-  background-color: rgba(255,255,255, 0.25);
+  background-color: rgba(255, 255, 255, 0.25);
   margin-top: 0;
   width: 100%;
   /* fixed height? */
   height: 730px;
   display: grid;
-  grid-template-columns:1fr 3fr;
+  grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
   justify-content: center;
 }
@@ -163,14 +168,12 @@ nav a {
   width: 60%;
   font-size: 18px;
   font-weight: 200;
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   /* border-width: 0px; */
   border: 1px solid red;
   border-radius: 3px;
   margin-bottom: 3px;
 }
-
-
 
 .demo-tools {
   /* border: 1px solid blue; */
@@ -188,7 +191,6 @@ nav a {
   padding: 0;
   min-height: 100px;
   align-self: stretch;
-
 }
 
 .state-display h2 {
@@ -216,9 +218,8 @@ nav a {
 .pagination-button {
   font-size: 20px;
   font-weight: 400;
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   color: whitesmoke;
   border-radius: 4px;
-  border: solid 0px whitesmoke
+  border: solid 0px whitesmoke;
 }
-

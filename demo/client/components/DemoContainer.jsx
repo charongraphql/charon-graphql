@@ -1,12 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import DemoAppView from './DemoAppView';
 import DemoTools from './DemoTools';
 
 const DemoContainer = () => (
-  <div className="demo-container">
-    <DemoAppView />
-    <DemoTools />
-  </div>
+  <Router>
+    <div className="demo-container">
+      <div className="demo-links">
+        <Link to="/demo1">demo 1</Link>
+        <Link to="/demo2">demo 2</Link>
+        <Link to="/demo3">demo 3</Link>
+      </div>
+      <Switch>
+        <Route
+          path="/:demo"
+          render={({ match }) => (
+            <div className="demo-routes">
+              <DemoAppView match={match} />
+              <DemoTools match={match} />
+            </div>
+          )}
+        />
+      </Switch>
+    </div>
+  </Router>
 );
 
 export default DemoContainer;

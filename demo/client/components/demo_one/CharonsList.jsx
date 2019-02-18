@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ListingCreator from './ListingCreator';
 import ListingsContainer from './ListingsContainer';
 

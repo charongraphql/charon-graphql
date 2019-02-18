@@ -1,7 +1,7 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Components
 import Gradient from './components/Gradient';
@@ -24,9 +24,8 @@ const App = () => (
           <Header />
           <Switch>
             <Route path="/" component={DemoContainer} exact />
-            <Route path="/error" component={ErrorPage} />
+            <Route component={ErrorPage} />
           </Switch>
-          {/* <DemoContainer /> */}
         </div>
       </Router>
     </ApolloProvider>
