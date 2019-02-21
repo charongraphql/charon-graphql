@@ -40,7 +40,7 @@ const normalize = ({ data }) => {
   const cacheAndQueue = (key, obj) => {
     // store obj in cache under key
     flat[key] = obj;
-    console.log(`adding "${key}" to queue`);
+    // console.log(`adding "${key}" to queue`);
 
     // add key to queue
     queue[enqueueIndex] = key;
@@ -119,11 +119,11 @@ const normalize = ({ data }) => {
   // and add those keys to the queue to be normalized next
   // repeat until the queue is empty
   while (queueLength > 0) {
-    console.log(`${Object.keys(queue).length} items in queue`);
+    // console.log(`${Object.keys(queue).length} items in queue`);
     // shift key from queue
     const queuedKey = dequeue();
     const nextObject = flat[queuedKey];
-    console.log(`next to normalize: ${queuedKey}`);
+    // console.log(`next to normalize: ${queuedKey}`);
 
     // grab object from flat cache
     // call normalizeObject helper
