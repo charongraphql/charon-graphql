@@ -1,9 +1,6 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
 const result = require('./dummyData');
 
-console.log('\n');
-
-
 /*
   uniqueSchemaFields tracks which field is unique among instances
    of each Schema. Also stores a default key for most Schemas
@@ -38,13 +35,12 @@ const normalize = ({ data }) => {
   let dequeueIndex = 0;
 
   const cacheAndQueue = (key, obj) => {
-    // store obj in cache under key
-    flat[key] = obj;
-    // console.log(`adding "${key}" to queue`);
+    // store obj in cache under key if it doesn't exist there yet
+    if (flat[key] === undefined) flat[key] = obj;
 
     // add key to queue
     queue[enqueueIndex] = key;
-    // console.log(`queue: ${queue}`);
+
     // increment appropriate index
     enqueueIndex += 1;
     queueLength += 1;
@@ -58,24 +54,24 @@ const normalize = ({ data }) => {
     return key;
   };
 
+  // TODO: address array normalization/replacement in normalizeObject
   const normalizeObject = (obj) => {
     const normal = {};
-    Object.keys(obj).forEach((key) => {
-      const value = obj[key];
+    Object.entries(obj).forEach(([key, value]) => {
       // check if value at key is array
       if (Array.isArray(value)) {
-        const normalArray = [];
+        normal[key] = [];
         // iterate, check for objects, cache and queue
         value.forEach((element, i) => {
-          normalArray[i] = element;
+          let nextPush = element;
           if (isObject(element)) {
             const uniqueKey = generateKeyFromTypeAndId(element);
             cacheAndQueue(uniqueKey, element);
-            normalArray[i] = uniqueKey;
+            nextPush = uniqueKey;
           }
+          normal[key].push(nextPush);
         });
 
-        normal[key] = normalArray;
         // check if value at key is object
       } else if (isObject(value)) {
         const uniqueKey = generateKeyFromTypeAndId(value);
@@ -87,61 +83,61 @@ const normalize = ({ data }) => {
         normal[key] = value;
       }
     });
-
     return normal;
   };
 
   // create keys and normalize object in topmost level
   // have to access the data object to get object
-  Object.values(data).forEach((value) => {
+  Object.entries(data).forEach(([key, value]) => {
+    let uniqueKey;
     // handle arrays
     if (Array.isArray(value)) {
-      // console.log('Value is array!');
+      const normalArray = [];
       value.forEach((element) => {
         if (isObject(element)) {
-          const key = generateKeyFromTypeAndId(element);
-          cacheAndQueue(key, element);
+          uniqueKey = generateKeyFromTypeAndId(element);
+          cacheAndQueue(uniqueKey, element);
         }
       });
     }
 
     // handle objects
     if (isObject(value)) {
-      // console.log('value is Object!');
-      const key = generateKeyFromTypeAndId(value);
-      cacheAndQueue(key, value);
+      uniqueKey = generateKeyFromTypeAndId(value);
+      cacheAndQueue(uniqueKey, value);
     }
   });
-  // console.log(`Queued up ${Object.values(queue).length} items from data object`);
 
   // EMPTY THE QUEUE! (but fill it up along the way...)
   // make a function to extract objects and replace with keys
   // and add those keys to the queue to be normalized next
   // repeat until the queue is empty
   while (queueLength > 0) {
-    // console.log(`${Object.keys(queue).length} items in queue`);
     // shift key from queue
     const queuedKey = dequeue();
     const nextObject = flat[queuedKey];
-    // console.log(`next to normalize: ${queuedKey}`);
 
     // grab object from flat cache
     // call normalizeObject helper
-    if (isObject(nextObject)) {
-      const normal = normalizeObject(nextObject);
-      flat[queuedKey] = normal;
-    }
+    // if (isObject(nextObject)) {
+    const normal = normalizeObject(nextObject);
+
+    flat[queuedKey] = normal;
+    // }
   }
 
   return flat;
 };
 
-const normal = normalize(result);
+// const now = new Date();
+// const normal = normalize(result);
 
-console.log('\n');
-console.log(Object.keys(normal));
-console.log('\n');
-console.log(normal);
-console.log('\n');
+// // console.log('\n');
+// // console.log(Object.keys(normal));
+// console.log('\n');
+// console.log(normal);
+// console.log('\n');
+// console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
+// console.log('\n');
 
 module.exports = normalize;
