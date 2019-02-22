@@ -1,7 +1,77 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const result = require('./dummyData');
+// const result = require('./dummyData');
 
-console.log('\n');
+//console.log('\n');
+
+/* eslint-disable */
+
+const result = {
+  "data": {
+    "authors": [
+      {
+        "__typename": "Author",
+        "id": "1",
+        "name": "ben",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "66",
+            "title": "refrigerator",
+            "author": {
+              "__typename": "Author",
+              "id": "1",
+              "name": "ben"
+            }
+          }
+        ]
+      },
+      {
+        "__typename": "Author",
+        "id": "2",
+        "name": "chang",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "67",
+            "title": "Large Trampoline",
+            "author": {
+              "__typename": "Author",
+              "id": "2",
+              "name": "chang"
+            }
+          },
+          {
+            "__typename": "Listing",
+            "id": "68",
+            "title": "big bowl of jello",
+            "author": {
+              "__typename": "Author",
+              "id": "2",
+              "name": "chang"
+            }
+          }
+        ]
+      },
+      {
+        "__typename": "Author",
+        "id": "3",
+        "name": "joel",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "53",
+            "title": "Television",
+            "author": {
+              "__typename": "Author",
+              "id": "3",
+              "name": "joel"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
 
 
 /*
@@ -13,7 +83,7 @@ const uniqueSchemaFields = {
   default: 'id',
 };
 
-// returns a boolean and covers most edge cases if a given value is and Object
+// returns a boolean and covers most edge cases if a given value is an Object
 const isObject = val => val instanceof Object && val.constructor === Object;
 
 /*
@@ -138,10 +208,13 @@ const normalize = ({ data }) => {
 
 const normal = normalize(result);
 
-console.log('\n');
-console.log(Object.keys(normal));
-console.log('\n');
+// console.log('\n');
+// console.log(Object.keys(normal));
+// console.log('\n');
+// console.log(normal);
+// console.log('\n');
+
 console.log(normal);
-console.log('\n');
+
 
 module.exports = normalize;
