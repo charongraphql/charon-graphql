@@ -1,9 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ListingCreator should render loading state initially 1`] = `
-<div>
+<ListingCreator
+  addListingMutation={[Function]}
+  getAuthorsQuery={
+    Object {
+      "error": undefined,
+      "fetchMore": [Function],
+      "loading": true,
+      "networkStatus": 1,
+      "refetch": [Function],
+      "startPolling": [Function],
+      "stopPolling": [Function],
+      "subscribeToMore": [Function],
+      "updateQuery": [Function],
+      "variables": Object {},
+    }
+  }
+  getListingsQuery={
+    Object {
+      "error": undefined,
+      "fetchMore": [Function],
+      "loading": true,
+      "networkStatus": 1,
+      "refetch": [Function],
+      "startPolling": [Function],
+      "stopPolling": [Function],
+      "subscribeToMore": [Function],
+      "updateQuery": [Function],
+      "variables": Object {},
+    }
+  }
+>
   <div
-    class="listing-creator"
+    className="listing-creator"
   >
     <div>
       <h3>
@@ -14,15 +44,18 @@ exports[`ListingCreator should render loading state initially 1`] = `
         0
       </span>
     </div>
-    <form>
+    <form
+      onSubmit={[Function]}
+    >
       <div
-        class="field"
+        className="field"
       >
         <label>
           Title: 
         </label>
         <input
           name="title"
+          onChange={[Function]}
           placeholder="Enter Title"
           type="text"
           value=""
@@ -32,17 +65,20 @@ exports[`ListingCreator should render loading state initially 1`] = `
         </span>
       </div>
       <div
-        class="field"
+        className="field"
       >
         <label>
           Author: 
         </label>
-        <select>
+        <select
+          onChange={[Function]}
+          value=""
+        >
           <option>
             Select Author
           </option>
           <option
-            disabled=""
+            disabled={true}
           >
             loading authors...
           </option>
@@ -57,5 +93,5 @@ exports[`ListingCreator should render loading state initially 1`] = `
       />
     </form>
   </div>
-</div>
+</ListingCreator>
 `;

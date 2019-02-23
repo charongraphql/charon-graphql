@@ -19,7 +19,7 @@ describe('ListingCreator', () => {
       },
       result: {
         data: {
-          authors: { id: '1', name: 's' },
+          authors: { id: '1', name: 'chang' },
         },
       },
     },
@@ -37,26 +37,28 @@ describe('ListingCreator', () => {
   // });
 
   test('should render loading state initially', () => {
-    const { container } = render(
+    wrapper = mount(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ListingCreator />
       </MockedProvider>,
     );
-    expect(container).toMatchSnapshot();
+    const tree = toJSON(wrapper.find('ListingCreator'));
+    // expect(tree.children).toContain('loading authors');
+    expect(tree).toMatchSnapshot();
     // this way does work with enzyme mount, but could get data to render
     // expect(toJSON(wrapper.find('ListingCreator'))).toMatchSnapshot();
   });
 
-  test('renders data', async () => {
-    const { queryByText, container } = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ListingCreator />
+  test('renders data', () => {
+    wrapper = mount(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <ListingCreator listings={[]} />
       </MockedProvider>,
     );
-    console.log(queryByText);
-    await waitUntilLoadingIsFinished(queryByText);
+    const tree = wrapper.toJSON();
+    expect(tree.children).toContain('loading authors');
 
-    expect(container).toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
   });
 
   // test.skip('should render authors', () => {
