@@ -3,6 +3,7 @@ import gql from './gqlQueries';
 
 const ListingCreator = props => {
   const [listingsCount, setListingsCount] = useState(0);
+  const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
@@ -22,6 +23,9 @@ const ListingCreator = props => {
       //! props.getListingsQuery.loading &&
       gql.getListings().then(data => {
         setListingsCount(data.data.listings.length);
+      });
+      gql.getAuthors().then(data => {
+        setAuthors(data.data.authors);
       });
 
       // console.log('this should only be called when page refreshes');
@@ -75,27 +79,15 @@ const ListingCreator = props => {
   };
 
   const displayAuthors = () => {
-    // const data = props.getAuthorsQuery;
-    // if (data.loading) {
-    //   // vanilla html attribute that disables dropdown
-    //   return <option disabled>loading authors...</option>;
-    // }
-    const guy = gql.getAuthors().then(data => {
-      console.log(data.data.authors);
-      return data.data.authors.map(author => (
-        // jsx / html issue
-        // option tag can only take one value attribute
-        // is there a better way to store auth id and name ?
-        <option key={author.id} value={author.id}>
-          {author.name}
-        </option>
-      ));
-    });
-
-    return guy.then(d => {
-      console.log(typeof d);
-      return d;
-    });
+    console.log('what the fuck', authors);
+    return authors.map(author => (
+      // jsx / html issue
+      // option tag can only take one value attribute
+      // is there a better way to store auth id and name ?
+      <option key={author.id} value={author.id}>
+        {author.name}
+      </option>
+    ));
   };
 
   return (
