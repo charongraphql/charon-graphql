@@ -92,7 +92,6 @@ const ListingCreator = props => {
     });
 
     return guy.then(d => {
-      console.log(d);
       return d;
     });
   };
