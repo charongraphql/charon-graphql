@@ -81,6 +81,7 @@ const ListingCreator = props => {
     //   return <option disabled>loading authors...</option>;
     // }
     const guy = gql.getAuthors().then(data => {
+      console.log(data.data.authors);
       return data.data.authors.map(author => (
         // jsx / html issue
         // option tag can only take one value attribute
@@ -92,6 +93,7 @@ const ListingCreator = props => {
     });
 
     return guy.then(d => {
+      console.log(typeof d);
       return d;
     });
   };
