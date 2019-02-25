@@ -126,15 +126,15 @@ const normalize = (data) => {
   return flat;
 };
 
-const now = new Date();
-const normal = normalize(result.data);
+// const now = new Date();
+// const normal = normalize(result.data);
 
 // console.log('\n');
 // console.log(Object.keys(normal));
-console.log('\n');
-console.log(normal);
-console.log('\n');
-console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
-console.log('\n');
+// console.log('\n');
+// console.log(normal);
+// console.log('\n');
+// console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
+// console.log('\n');
 
 module.exports = normalize;
