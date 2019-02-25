@@ -24,7 +24,7 @@ const generateKeyFromTypeAndId = (obj) => {
   return `${type}:${id}`;
 };
 
-const normalize = ({ data }) => {
+const normalize = (data) => {
   const flat = {};
 
   // chose to use object to act as queue
@@ -54,7 +54,6 @@ const normalize = ({ data }) => {
     return key;
   };
 
-  // TODO: address array normalization/replacement in normalizeObject
   const normalizeObject = (obj) => {
     const normal = {};
     Object.entries(obj).forEach(([key, value]) => {
@@ -76,7 +75,6 @@ const normalize = ({ data }) => {
       } else if (isObject(value)) {
         const uniqueKey = generateKeyFromTypeAndId(value);
         cacheAndQueue(uniqueKey, value);
-
         normal[key] = uniqueKey;
         // value is neither array or object
       } else {
@@ -88,11 +86,10 @@ const normalize = ({ data }) => {
 
   // create keys and normalize object in topmost level
   // have to access the data object to get object
-  Object.entries(data).forEach(([key, value]) => {
+  Object.values(data).forEach((value) => {
     let uniqueKey;
     // handle arrays
     if (Array.isArray(value)) {
-      const normalArray = [];
       value.forEach((element) => {
         if (isObject(element)) {
           uniqueKey = generateKeyFromTypeAndId(element);
@@ -129,15 +126,15 @@ const normalize = ({ data }) => {
   return flat;
 };
 
-// const now = new Date();
-// const normal = normalize(result);
+const now = new Date();
+const normal = normalize(result.data);
 
-// // console.log('\n');
-// // console.log(Object.keys(normal));
 // console.log('\n');
-// console.log(normal);
-// console.log('\n');
-// console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
-// console.log('\n');
+// console.log(Object.keys(normal));
+console.log('\n');
+console.log(normal);
+console.log('\n');
+console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
+console.log('\n');
 
 module.exports = normalize;
