@@ -4,7 +4,6 @@ import { getAuthorsQuery, addListingMutation, getListingsQuery } from '../../que
 
 const ListingCreator = props => {
   const [listingsCount, setListingsCount] = useState(0);
-
   // combo of componentDidMount and componentDidUpdate
   useEffect(() => {
     if (!props.getListingsQuery.loading) {
@@ -20,6 +19,8 @@ const ListingCreator = props => {
     // without this initialized check useEffect will also act like compDidUpdate
     if (!props.getListingsQuery.loading && !initialized) {
       setListingsCount(props.getListingsQuery.listings.length);
+      console.log(props);
+
       // console.log('this should only be called when page refreshes');
       setInitialized(true);
     }

@@ -68,4 +68,28 @@ const result = {
   }
 }
 
-module.exports =  result;
+const addedData = {
+  "__typename": "Listing",
+  "id": "69",
+  "title": "Avocado Toast",
+  "author": {
+    "__typename": "Author",
+    "id": "1",
+    "name": "ben"
+  }
+}
+
+const normalizedData = [
+  {
+    "__typename": "Listing",
+    "id": "66",
+    "title": "refrigerator",
+    "author": {
+      "__typename": "Author",
+      "id": "1",
+      "name": "ben"
+    }
+  }
+]
+
+module.exports =  { result, addedData, normalizedData };

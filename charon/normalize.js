@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const result = require('./dummyData');
+const { result } = require('./dummyData');
 
 /*
   uniqueSchemaFields tracks which field is unique among instances
    of each Schema. Also stores a default key for most Schemas
 */
 const uniqueSchemaFields = {
-// {'Schema Type': 'unique identifier key'}
+  // {'Schema Type': 'unique identifier key'}
   default: 'id',
 };
 
@@ -17,7 +17,7 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   normalizeObj object uses the uniqueSchemaFields object
   to determine which property to use as the unique identifier
 */
-const generateKeyFromTypeAndId = (obj) => {
+const generateKeyFromTypeAndId = obj => {
   const type = obj.__typename;
   const field = uniqueSchemaFields[type] || uniqueSchemaFields.default;
   const id = obj[field];
@@ -55,7 +55,7 @@ const normalize = ({ data }) => {
   };
 
   // TODO: address array normalization/replacement in normalizeObject
-  const normalizeObject = (obj) => {
+  const normalizeObject = obj => {
     const normal = {};
     Object.entries(obj).forEach(([key, value]) => {
       // check if value at key is array
@@ -93,7 +93,7 @@ const normalize = ({ data }) => {
     // handle arrays
     if (Array.isArray(value)) {
       const normalArray = [];
-      value.forEach((element) => {
+      value.forEach(element => {
         if (isObject(element)) {
           uniqueKey = generateKeyFromTypeAndId(element);
           cacheAndQueue(uniqueKey, element);
@@ -132,8 +132,8 @@ const normalize = ({ data }) => {
 // const now = new Date();
 // const normal = normalize(result);
 
-// // console.log('\n');
-// // console.log(Object.keys(normal));
+// console.log('\n');
+// console.log(Object.keys(normal));
 // console.log('\n');
 // console.log(normal);
 // console.log('\n');
