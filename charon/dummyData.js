@@ -89,6 +89,8 @@ const variables = {
 cache.addResult(result.data);
 const data = cache.readCache(query, variables);
 
+console.log('data, ', data);
+
 const addedData = {
   __typename: 'Listing',
   id: '69',
