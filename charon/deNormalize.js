@@ -1,75 +1,35 @@
-const cache = {
-  'Author:1': { __typename: 'Author', id: '1', name: 'ben' }, 
-  'Author:2': { __typename: 'Author', id: '2', name: 'chang' }, 
-  'Author:3': { __typename: 'Author', id: '3', name: 'joel' }, 
-}
 
-const dummyNormalizedData = { 
-  // 'Listing:66':  
-  // { __typename: 'Listing', 
-  //   id: '66', 
-  //   title: 'refrigerator', 
-  //   author: 'Author:1' }, 
-  // 'Listing:67':  
-  // { __typename: 'Listing', 
-  //   id: '67', 
-  //   title: 'Large Trampoline', 
-  //   author: 'Author:2' }, 
-  // 'Listing:68':  
-  // { __typename: 'Listing', 
-  //   id: '68', 
-  //   title: 'big bowl of jello', 
-  //   author: 'Author:2' }, 
-  // 'Listing:53':  
-  // { __typename: 'Listing',
-  //   id: '53', 
-  //   title: 'Television', 
-  //   author: 'Author:3' }
-}
+export const reconstructQuery = (flatQuery, data) => {
+  const graphqlFormatedQuery = {};
 
-const sampleData = {
-  "authors": [
-    {
-      "__typename": "Author",
-      "id": "1",
-      "name": "ben",
-      "listing": [
-        {
-          "__typename": "Listing",
-          "id": "66",
-          "title": "refrigerator",
-          "author": {
-            "__typename": "Author",
-            "id": "1",
-            "name": "ben"
-          }
-        }
-      ]
-    } 
-  ]
-};
+  Object.entries(flatQuery).forEach(([field, value]) => {
+    if (Array.isArray(value)) {
+      graphqlFormatedQuery[field] = [];
 
-// const normalized = () => {
-
-// }
-
-const deNormalize = (cache) => {
-  const output = {}; // trial with array
-  Object.entries(cache).forEach((entry) => {
-    
+      value.forEach((el) => {
+        graphqlFormatedQuery[field].push(
+          reconstructQuery(data[el], data)
+        );
+      });
+    } else if (data[value]) {
+      graphqlFormatedQuery[field] = data[value].id;
+    } else {
+      graphqlFormatedQuery[field] = value;
+    }
   });
-  return output;
+
+  return graphqlFormatedQuery;
 };
 
-console.log(deNormalize(dummyNormalizedData));
-    
-    // iterate through props of object
-      // if the last char of a value equals a number
-        // iterate backward while the curr char equals a number,
-          // if the next char equals a colon
-            // break
-export default deNormalize;
 
+export const deNormalize = (flatData) => {
+  const nestedData = {};
 
+  Object.entries(flatData).forEach(([cacheKey, queryBody]) => {  
+    const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
 
-console.log(dummyNormalizedData["Author:1"])
+    nestedData[field] = reconstructQuery(queryBody, flatData);
+  });
+
+  return nestedData;
+};
