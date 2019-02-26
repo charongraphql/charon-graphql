@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* eslint-disable quotes, quote-props, comma-dangle, no-console */
+const Charon = require('./index');
 
 const result = {
   "data": {
@@ -66,6 +67,30 @@ const result = {
       }
     ]
   }
-}
+};
 
-module.exports =  result;
+
+const cache = new Charon();
+
+const query = `
+  query getAuthorById($id: ID!) {
+    author (id: $id) {
+      name
+      listing {
+        title
+      }
+  }
+}
+`;
+
+
+const variables = {
+  id: 3
+};
+
+
+cache.addResult(result.data);
+const data = cache.readCache(query, variables);
+
+
+module.exports = result;

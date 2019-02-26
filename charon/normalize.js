@@ -1,83 +1,5 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-// const result = require('./dummyData');
-/* eslint-disable */
-
-const result = {
-  "data": {
-    "authors": [
-      {
-        "__typename": "Author",
-        "id": "1",
-        "name": "ben",
-        "listing": [
-          {
-            "__typename": "Listing",
-            "id": "66",
-            "title": "refrigerator",
-            "author": {
-              "__typename": "Author",
-              "id": "1",
-              "name": "ben"
-            }
-          }
-        ]
-      },
-      {
-        "__typename": "Author",
-        "id": "2",
-        "name": "chang",
-        "listing": [
-          {
-            "__typename": "Listing",
-            "id": "67",
-            "title": "Large Trampoline",
-            "author": {
-              "__typename": "Author",
-              "id": "2",
-              "name": "chang"
-            }
-          },
-          {
-            "__typename": "Listing",
-            "id": "68",
-            "title": "big bowl of jello",
-            "author": {
-              "__typename": "Author",
-              "id": "2",
-              "name": "chang"
-            }
-          }
-        ]
-      },
-      {
-        "__typename": "Author",
-        "id": "3",
-        "name": "joel",
-        "listing": [
-          {
-            "__typename": "Listing",
-            "id": "53",
-            "title": "Television",
-            "author": {
-              "__typename": "Author",
-              "id": "3",
-              "name": "joel"
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
-
-/*
-  uniqueSchemaFields tracks which field is unique among instances
-  of each Schema. Also stores a default key for most Schemas
-*/
-const uniqueSchemaFields = {
-// {'Schema Type': 'unique identifier key'}
-  default: 'id',
-};
+const uniqueSchemaFields = require('./helpers/uniqueSchemaFields');
 
 // returns a boolean and covers most edge cases if a given value is an Object
 const isObject = val => val instanceof Object && val.constructor === Object;
@@ -87,13 +9,13 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   to determine which property to use as the unique identifier
 */
 const generateKeyFromTypeAndId = (obj) => {
-  const type = obj.__typename;
-  const field = uniqueSchemaFields[type] || uniqueSchemaFields.default;
+  const schemaType = obj.__typename;
+  const field = uniqueSchemaFields.getField(schemaType);
   const id = obj[field];
-  return `${type}:${id}`;
+  return `${schemaType}:${id}`;
 };
 
-const normalize = (data) => {
+function normalize(data) {
   const flat = {};
 
   // chose to use object to act as queue
@@ -193,18 +115,7 @@ const normalize = (data) => {
   }
 
   return flat;
-};
+}
 
-// const now = new Date();
-// const normal = normalize(result.data);
-
-// console.log('\n');
-// console.log(Object.keys(normal));
-
-// console.log('\n');
-// console.log(normal);
-// console.log('\n');
-// console.log(`run @ ${now.toLocaleTimeString('en-US')}`);
-// console.log('\n');
 
 module.exports = normalize;
