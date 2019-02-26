@@ -1,15 +1,15 @@
+const normalize = require('./normalize');
+const { result } = require('./dummyData');
 
-export const reconstructQuery = (flatQuery, data) => {
+const deNormalize = (flatQuery, data) => {
   const graphqlFormatedQuery = {};
 
   Object.entries(flatQuery).forEach(([field, value]) => {
     if (Array.isArray(value)) {
       graphqlFormatedQuery[field] = [];
 
-      value.forEach((el) => {
-        graphqlFormatedQuery[field].push(
-          reconstructQuery(data[el], data)
-        );
+      value.forEach(el => {
+        graphqlFormatedQuery[field].push(deNormalize(data[el], data));
       });
     } else if (data[value]) {
       graphqlFormatedQuery[field] = data[value].id;
@@ -21,15 +21,35 @@ export const reconstructQuery = (flatQuery, data) => {
   return graphqlFormatedQuery;
 };
 
+// TODO: check if the query exists in the cache
+const checkCache = (flatData, queryString) => {
+  // need to handle if the query string doesnt exist
+  // if it doesnt exist then find its charon key and iterate through cache
+  // if not found then hit database
+  // returns a boolean
+};
 
-export const deNormalize = (flatData) => {
+const getAllCachedData = flatData => {
   const nestedData = {};
 
-  Object.entries(flatData).forEach(([cacheKey, queryBody]) => {  
-    const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
-
-    nestedData[field] = reconstructQuery(queryBody, flatData);
+  Object.entries(flatData).forEach(([charonKey, queryBody]) => {
+    // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
+    nestedData[charonKey] = deNormalize(queryBody, flatData);
   });
 
   return nestedData;
 };
+
+const getQueriedData = (flatData, queryString) => {
+  const nestedData = {};
+  if (checkCache(flatData, queryString)) {
+    nestedData[queryString] = deNormalize(flatData[queryString], flatData);
+  }
+  return nestedData;
+};
+
+const flat = normalize(result);
+console.log('------------------');
+// console.log(JSON.stringify(deNormalizeAll(flat), null, 2));
+console.log('------------------');
+console.log(JSON.stringify(getQueriedData(flat, 'undefined:undefined'), null, 2));

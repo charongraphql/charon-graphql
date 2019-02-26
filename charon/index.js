@@ -4,7 +4,6 @@ const parseQueryForTypename = require('./helpers/parseQueryForTypename');
 const parseQueryForFields = require('./helpers/parseQueryForFields');
 const normalize = require('./normalize');
 
-
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
 // console.log('normalize:', normalize);
@@ -32,6 +31,5 @@ class Charon {
     const queryFields = parseQueryForFields(query);
   }
 }
-
 
 module.exports = Charon;
