@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
-const uniqueSchemaFields = require('./helpers/uniqueSchemaFields');
-const parseQueryForTypename = require('./helpers/parseQueryForTypename');
+const generateCharonKeyFromQuery = require('./helpers/generateCharonKeyFromQuery');
 const parseQueryForFields = require('./helpers/parseQueryForFields');
 const normalize = require('./normalize');
 const { deNormalize, checkCache, getAllCachedData, getQueriedData } = require('./deNormalize');
@@ -21,15 +20,20 @@ class Charon {
 
   readCache(query, variables) {
     console.log('reading cache...');
-    const typename = parseQueryForTypename(query);
-    const field = uniqueSchemaFields.getField(typename);
-    // console.log(typename);
-    // use a helper funciton to parse the Query String
-    // the result of the helper function will return the typename based on the string
-    const charonKey = `${typename}:${variables[field]}`;
-    const rawFromCache = this.cache[charonKey]; // check if exists
+  }
 
+  // TODO: check if the query exists in the cache
+  checkCharonKey(query, variables) {
+    // need to handle if the query string doesnt exist
+    // if it doesnt exist then find its charon key and iterate through cache
+    // returns a boolean
+    const charonKey = generateCharonKeyFromQuery(query, variables);
+    // check if charonKey exists in the cache
     const queryFields = parseQueryForFields(query);
+
+    if (this.cache[charonKey]) {
+      const rawFromCache = this.cache[charonKey];
+    }
 
     // denormalize rawFromCache
     // parse through and match queryFields to denormalized data
@@ -37,6 +41,29 @@ class Charon {
     // normalize query
     // parse through and match queryFields to normalized data
     // return denormalized stripped data
+  }
+
+  getAllCachedData() {
+    const nestedData = {};
+
+    Object.entries(this.cache).forEach(([charonKey, queryBody]) => {
+      // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
+      nestedData[charonKey] = deNormalize(queryBody, this.cache);
+    });
+
+    return nestedData;
+  }
+
+  getQueriedData(query) {
+    const nestedData = {};
+    if (this.cache[query]) {
+      // last worked on
+      nestedData[query] = deNormalize(this.cache[query], this.cache);
+    } else if (checkCharonKey(query)) {
+    } else {
+      // if not found then hit database
+    }
+    return nestedData;
   }
 }
 
