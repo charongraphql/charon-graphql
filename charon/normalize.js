@@ -1,16 +1,85 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const result = require('./dummyData');
+// const result = require('./dummyData');
+/* eslint-disable */
+
+const result = {
+  "data": {
+    "authors": [
+      {
+        "__typename": "Author",
+        "id": "1",
+        "name": "ben",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "66",
+            "title": "refrigerator",
+            "author": {
+              "__typename": "Author",
+              "id": "1",
+              "name": "ben"
+            }
+          }
+        ]
+      },
+      {
+        "__typename": "Author",
+        "id": "2",
+        "name": "chang",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "67",
+            "title": "Large Trampoline",
+            "author": {
+              "__typename": "Author",
+              "id": "2",
+              "name": "chang"
+            }
+          },
+          {
+            "__typename": "Listing",
+            "id": "68",
+            "title": "big bowl of jello",
+            "author": {
+              "__typename": "Author",
+              "id": "2",
+              "name": "chang"
+            }
+          }
+        ]
+      },
+      {
+        "__typename": "Author",
+        "id": "3",
+        "name": "joel",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "53",
+            "title": "Television",
+            "author": {
+              "__typename": "Author",
+              "id": "3",
+              "name": "joel"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
 
 /*
   uniqueSchemaFields tracks which field is unique among instances
-   of each Schema. Also stores a default key for most Schemas
+  of each Schema. Also stores a default key for most Schemas
 */
 const uniqueSchemaFields = {
 // {'Schema Type': 'unique identifier key'}
   default: 'id',
 };
 
-// returns a boolean and covers most edge cases if a given value is and Object
+// returns a boolean and covers most edge cases if a given value is an Object
 const isObject = val => val instanceof Object && val.constructor === Object;
 
 /*
@@ -131,6 +200,39 @@ const normalize = ({ data }) => {
 
 // const now = new Date();
 // const normal = normalize(result);
+
+// console.log('\n');
+// console.log(Object.keys(normal));
+// console.log('\n');
+// console.log(normal);
+// console.log('\n');
+
+const sampleData = {
+  "data": {
+    "authors": [
+      {
+        "__typename": "Author",
+        "id": "1",
+        "name": "ben",
+        "listing": [
+          {
+            "__typename": "Listing",
+            "id": "66",
+            "title": "refrigerator",
+            "author": {
+              "__typename": "Author",
+              "id": "1",
+              "name": "ben"
+            }
+          }
+        ]
+      } 
+    ] 
+  }
+};
+
+// console.log(normalize(result));
+console.log(normalize(sampleData));
 
 // // console.log('\n');
 // // console.log(Object.keys(normal));
