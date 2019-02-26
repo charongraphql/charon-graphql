@@ -83,7 +83,6 @@ const ListingCreator = props => {
     return authors.map(author => (
       // jsx / html issue
       // option tag can only take one value attribute
-      // is there a better way to store auth id and name ?
       <option key={author.id} value={author.id}>
         {author.name}
       </option>

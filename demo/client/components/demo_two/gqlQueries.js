@@ -41,7 +41,7 @@ const gql = {
       .then(data => data);
   },
 
-  addListing: (title, authorId) => {
+  addListing: (id, title) => {
     return fetch('/graphql', {
       method: 'POST',
       headers: {
@@ -49,8 +49,8 @@ const gql = {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        query: `mutation($title: String!, $authorId: ID!) { 
-          addListing(title: $title, author_id: $authorId) {
+        query: `mutation($title: String!, $id: ID!) { 
+          addListing(title: $title, author_id: $id) {
             id
             title
             author {
@@ -59,7 +59,7 @@ const gql = {
             }
           }
         }`,
-        variables: { title, authorId },
+        variables: { id, title },
       }),
     })
       .then(r => r.json())
