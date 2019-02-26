@@ -8,7 +8,7 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   normalizeObj object uses the uniqueSchemaFields object
   to determine which property to use as the unique identifier
 */
-const generateKeyFromTypeAndId = (obj) => {
+const generateKeyFromTypeAndId = obj => {
   const schemaType = obj.__typename;
   const field = uniqueSchemaFields.getField(schemaType);
   const id = obj[field];
@@ -45,7 +45,7 @@ function normalize(data) {
     return key;
   };
 
-  const normalizeObject = (obj) => {
+  const normalizeObject = obj => {
     const normal = {};
     Object.entries(obj).forEach(([key, value]) => {
       // check if value at key is array
@@ -77,11 +77,11 @@ function normalize(data) {
 
   // create keys and normalize object in topmost level
   // have to access the data object to get object
-  Object.values(data).forEach((value) => {
+  Object.values(data).forEach(value => {
     let uniqueKey;
     // handle arrays
     if (Array.isArray(value)) {
-      value.forEach((element) => {
+      value.forEach(element => {
         if (isObject(element)) {
           uniqueKey = generateKeyFromTypeAndId(element);
           cacheAndQueue(uniqueKey, element);
@@ -116,6 +116,5 @@ function normalize(data) {
 
   return flat;
 }
-
 
 module.exports = normalize;

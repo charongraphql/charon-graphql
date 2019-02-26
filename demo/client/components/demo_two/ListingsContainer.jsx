@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { graphql, compose } from 'react-apollo';
 
-import { getListingsQuery, deleteListingMutation } from '../../queries/queries';
-import Listing from './Listing';
+import Listing from '../demo_one/Listing';
 import Pagination from '../Pagination';
+import gql from './gqlQueries';
 
-const ListingsContainer = ({ getListingsQuery, deleteListingMutation, setListings, listings }) => {
+const ListingsContainer = ({ setListings, listings }) => {
   // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
-
+  console.log('Listing container');
   // component did mount/update, setListing to fetched data.
   useEffect(() => {
-    if (!getListingsQuery.loading && !initialized) {
-      setListings(getListingsQuery.listings);
+    if (!initialized) {
+      gql.getListings().then(data => {
+        setListings(data.data.listings); // really???
+      });
       setInitialized(true);
     }
   });
 
   const deleteListing = (listingId, index) => {
     // delete listing from database
-    deleteListingMutation({
-      variables: {
-        id: listingId,
-      },
-      // refetchQueries: [
-      //   {
-      //     query: getListingsQuery,
-      //   },
-      // ],
+    gql.deleteListing(listingId).then(data => {
+      console.log('deleting listing', data);
     });
 
     // deleting the listing from displayed props
@@ -62,9 +56,4 @@ const ListingsContainer = ({ getListingsQuery, deleteListingMutation, setListing
   );
 };
 
-export default compose(
-  // making the queries/mutations available as props
-  graphql(getListingsQuery, { name: 'getListingsQuery' }),
-  graphql(deleteListingMutation, { name: 'deleteListingMutation' }),
-  // queries are bound to this component
-)(ListingsContainer);
+export default ListingsContainer;
