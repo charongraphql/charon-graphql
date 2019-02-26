@@ -69,8 +69,12 @@ const result = {
   }
 };
 
+const cacheConfig = {
+  uri: 'http://localhost:4000/graphql',
+};
 
-const cache = new Charon();
+
+const cache = new Charon(cacheConfig);
 
 const query = `
   query getAuthorById($id: ID!) {
@@ -91,6 +95,7 @@ const variables = {
 
 cache.addResult(result.data);
 const data = cache.readCache(query, variables);
+// console.log(cache);
 
 
 module.exports = result;
