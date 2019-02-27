@@ -2,71 +2,71 @@
 const Charon = require('./index');
 
 const result = {
-  "data": {
-    "authors": [
+  data: {
+    authors: [
       {
-        "__typename": "Author",
-        "id": "1",
-        "name": "ben",
-        "listing": [
+        __typename: 'Author',
+        id: '1',
+        name: 'ben',
+        listing: [
           {
-            "__typename": "Listing",
-            "id": "66",
-            "title": "refrigerator",
-            "author": {
-              "__typename": "Author",
-              "id": "1",
-              "name": "ben"
-            }
-          }
-        ]
+            __typename: 'Listing',
+            id: '66',
+            title: 'refrigerator',
+            author: {
+              __typename: 'Author',
+              id: '1',
+              name: 'ben',
+            },
+          },
+        ],
       },
       {
-        "__typename": "Author",
-        "id": "2",
-        "name": "chang",
-        "listing": [
+        __typename: 'Author',
+        id: '2',
+        name: 'chang',
+        listing: [
           {
-            "__typename": "Listing",
-            "id": "67",
-            "title": "Large Trampoline",
-            "author": {
-              "__typename": "Author",
-              "id": "2",
-              "name": "chang"
-            }
+            __typename: 'Listing',
+            id: '67',
+            title: 'Large Trampoline',
+            author: {
+              __typename: 'Author',
+              id: '2',
+              name: 'chang',
+            },
           },
           {
-            "__typename": "Listing",
-            "id": "68",
-            "title": "big bowl of jello",
-            "author": {
-              "__typename": "Author",
-              "id": "2",
-              "name": "chang"
-            }
-          }
-        ]
+            __typename: 'Listing',
+            id: '68',
+            title: 'big bowl of jello',
+            author: {
+              __typename: 'Author',
+              id: '2',
+              name: 'chang',
+            },
+          },
+        ],
       },
       {
-        "__typename": "Author",
-        "id": "3",
-        "name": "joel",
-        "listing": [
+        __typename: 'Author',
+        id: '3',
+        name: 'joel',
+        listing: [
           {
-            "__typename": "Listing",
-            "id": "53",
-            "title": "Television",
-            "author": {
-              "__typename": "Author",
-              "id": "3",
-              "name": "joel"
-            }
-          }
-        ]
-      }
-    ]
-  }
+            __typename: 'Listing',
+            id: '53',
+            title: 'Television',
+            author: {
+              __typename: 'Author',
+              id: '3',
+              name: 'joel',
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 
 const cacheConfig = {
@@ -86,16 +86,41 @@ const query = `
   }
 }
 `;
-
-
 const variables = {
-  id: 3
+  id: 3,
+};
+/* ------------------ */
+
+charon.addResult(result.data);
+const data = charon.cache;
+
+console.log('data, ', data);
+
+charon.checkCharonKey(query, variables);
+
+const addedData = {
+  __typename: 'Listing',
+  id: '69',
+  title: 'Avocado Toast',
+  author: {
+    __typename: 'Author',
+    id: '1',
+    name: 'ben',
+  },
 };
 
 
-cache.addResult(result.data);
-const data = cache.readCache(query, variables);
-// console.log(cache);
+const normalizedData = [
+  {
+    __typename: 'Listing',
+    id: '66',
+    title: 'refrigerator',
+    author: {
+      __typename: 'Author',
+      id: '1',
+      name: 'ben',
+    },
+  },
+];
 
-
-module.exports = result;
+module.exports = { result, addedData, normalizedData };

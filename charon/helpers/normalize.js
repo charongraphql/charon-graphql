@@ -1,11 +1,21 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const generateKeyFromObject = require('./generateKeyFromObject');
-const isObject = require('./isObject');
+const uniqueSchemaFields = require('./uniqueSchemaFields');
 
 // returns a boolean and covers most edge cases if a given value is an Object
-// const isObject = val => val instanceof Object && val.constructor === Object;
+const isObject = val => val instanceof Object && val.constructor === Object;
 
-function normalize(data, uniqueSchemaFields) {
+/*
+  normalizeObj object uses the uniqueSchemaFields object
+  to determine which property to use as the unique identifier
+*/
+const generateKeyFromTypeAndId = obj => {
+  const schemaType = obj.__typename;
+  const field = uniqueSchemaFields.getField(schemaType);
+  const id = obj[field];
+  return `${schemaType}:${id}`;
+};
+
+function normalize(data) {
   const flat = {};
 
   // chose to use object to act as queue
@@ -106,6 +116,4 @@ function normalize(data, uniqueSchemaFields) {
 
   return flat;
 }
-
-
 module.exports = normalize;

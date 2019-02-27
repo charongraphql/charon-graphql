@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListingCreator should render loading state initially 1`] = `
+<ListingCreator
+  addListingMutation={[Function]}
+  getAuthorsQuery={
+    Object {
+      "error": undefined,
+      "fetchMore": [Function],
+      "loading": true,
+      "networkStatus": 1,
+      "refetch": [Function],
+      "startPolling": [Function],
+      "stopPolling": [Function],
+      "subscribeToMore": [Function],
+      "updateQuery": [Function],
+      "variables": Object {},
+    }
+  }
+  getListingsQuery={
+    Object {
+      "error": undefined,
+      "fetchMore": [Function],
+      "loading": true,
+      "networkStatus": 1,
+      "refetch": [Function],
+      "startPolling": [Function],
+      "stopPolling": [Function],
+      "subscribeToMore": [Function],
+      "updateQuery": [Function],
+      "variables": Object {},
+    }
+  }
+>
+  <div
+    className="listing-creator"
+  >
+    <div>
+      <h3>
+        Total Listings:
+      </h3>
+       
+      <span>
+        0
+      </span>
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label>
+          Title: 
+        </label>
+        <input
+          name="title"
+          onChange={[Function]}
+          placeholder="Enter Title"
+          type="text"
+          value=""
+        />
+        <span>
+          ❌
+        </span>
+      </div>
+      <div
+        className="field"
+      >
+        <label>
+          Author: 
+        </label>
+        <select
+          onChange={[Function]}
+          value=""
+        >
+          <option>
+            Select Author
+          </option>
+          <option
+            disabled={true}
+          >
+            loading authors...
+          </option>
+        </select>
+        <span>
+          ❌
+        </span>
+      </div>
+      <input
+        type="submit"
+        value="+"
+      />
+    </form>
+  </div>
+</ListingCreator>
+`;

@@ -1,15 +1,11 @@
-
-export const reconstructQuery = (flatQuery, data) => {
+module.exports = function deNormalize(flatQuery, data) {
   const graphqlFormatedQuery = {};
 
   Object.entries(flatQuery).forEach(([field, value]) => {
     if (Array.isArray(value)) {
       graphqlFormatedQuery[field] = [];
-
-      value.forEach((el) => {
-        graphqlFormatedQuery[field].push(
-          reconstructQuery(data[el], data)
-        );
+      value.forEach(el => {
+        graphqlFormatedQuery[field].push(deNormalize(data[el], data));
       });
     } else if (data[value]) {
       graphqlFormatedQuery[field] = data[value].id;
@@ -17,19 +13,7 @@ export const reconstructQuery = (flatQuery, data) => {
       graphqlFormatedQuery[field] = value;
     }
   });
-
+  // data dynamic transformation
   return graphqlFormatedQuery;
 };
 
-
-export const deNormalize = (flatData) => {
-  const nestedData = {};
-
-  Object.entries(flatData).forEach(([cacheKey, queryBody]) => {  
-    const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
-
-    nestedData[field] = reconstructQuery(queryBody, flatData);
-  });
-
-  return nestedData;
-};
