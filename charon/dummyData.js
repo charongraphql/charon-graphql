@@ -69,8 +69,8 @@ const result = {
   },
 };
 
-const cache = new Charon();
-
+const charon = new Charon();
+/* ------------------ */
 const query = `
   query getAuthorById($id: ID!) {
     author (id: $id) {
@@ -81,15 +81,17 @@ const query = `
   }
 }
 `;
-
 const variables = {
   id: 3,
 };
+/* ------------------ */
 
-cache.addResult(result.data);
-const data = cache.readCache(query, variables);
+charon.addResult(result.data);
+const data = charon.cache;
 
 console.log('data, ', data);
+
+charon.checkCharonKey(query, variables);
 
 const addedData = {
   __typename: 'Listing',

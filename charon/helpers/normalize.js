@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const uniqueSchemaFields = require('./helpers/uniqueSchemaFields');
+const uniqueSchemaFields = require('./uniqueSchemaFields');
 
 // returns a boolean and covers most edge cases if a given value is an Object
 const isObject = val => val instanceof Object && val.constructor === Object;

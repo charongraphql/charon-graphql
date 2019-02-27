@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 const generateCharonKeyFromQuery = require('./helpers/generateCharonKeyFromQuery');
 const parseQueryForFields = require('./helpers/parseQueryForFields');
-const normalize = require('./normalize');
-const { deNormalize, checkCache, getAllCachedData, getQueriedData } = require('./deNormalize');
+const normalize = require('./helpers/normalize');
+const deNormalize = require('./helpers/deNormalize');
 
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
@@ -28,11 +28,14 @@ class Charon {
     // if it doesnt exist then find its charon key and iterate through cache
     // returns a boolean
     const charonKey = generateCharonKeyFromQuery(query, variables);
-    // check if charonKey exists in the cache
+    // grabs fields from the query
     const queryFields = parseQueryForFields(query);
+    console.log('queryFields', queryFields);
 
+    // check if charonKey exists in the cache
     if (this.cache[charonKey]) {
       const rawFromCache = this.cache[charonKey];
+      console.log('rawFromCache', rawFromCache);
     }
 
     // denormalize rawFromCache
@@ -59,7 +62,8 @@ class Charon {
     if (this.cache[query]) {
       // last worked on
       nestedData[query] = deNormalize(this.cache[query], this.cache);
-    } else if (checkCharonKey(query)) {
+    } else if (this.checkCharonKey(query)) {
+      console.log('hit');
     } else {
       // if not found then hit database
     }
