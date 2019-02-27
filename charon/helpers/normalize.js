@@ -1,21 +1,11 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign */
-const uniqueSchemaFields = require('./helpers/uniqueSchemaFields');
+const generateKeyFromObject = require('./generateKeyFromObject');
+const isObject = require('./isObject');
 
 // returns a boolean and covers most edge cases if a given value is an Object
-const isObject = val => val instanceof Object && val.constructor === Object;
+// const isObject = val => val instanceof Object && val.constructor === Object;
 
-/*
-  normalizeObj object uses the uniqueSchemaFields object
-  to determine which property to use as the unique identifier
-*/
-const generateKeyFromTypeAndId = (obj) => {
-  const schemaType = obj.__typename;
-  const field = uniqueSchemaFields.getField(schemaType);
-  const id = obj[field];
-  return `${schemaType}:${id}`;
-};
-
-function normalize(data) {
+function normalize(data, uniqueSchemaFields) {
   const flat = {};
 
   // chose to use object to act as queue
@@ -55,7 +45,7 @@ function normalize(data) {
         value.forEach((element, i) => {
           let nextPush = element;
           if (isObject(element)) {
-            const uniqueKey = generateKeyFromTypeAndId(element);
+            const uniqueKey = generateKeyFromObject(element, uniqueSchemaFields);
             cacheAndQueue(uniqueKey, element);
             nextPush = uniqueKey;
           }
@@ -64,7 +54,7 @@ function normalize(data) {
 
         // check if value at key is object
       } else if (isObject(value)) {
-        const uniqueKey = generateKeyFromTypeAndId(value);
+        const uniqueKey = generateKeyFromObject(value, uniqueSchemaFields);
         cacheAndQueue(uniqueKey, value);
         normal[key] = uniqueKey;
         // value is neither array or object
@@ -83,7 +73,7 @@ function normalize(data) {
     if (Array.isArray(value)) {
       value.forEach((element) => {
         if (isObject(element)) {
-          uniqueKey = generateKeyFromTypeAndId(element);
+          uniqueKey = generateKeyFromObject(element, uniqueSchemaFields);
           cacheAndQueue(uniqueKey, element);
         }
       });
@@ -91,7 +81,7 @@ function normalize(data) {
 
     // handle objects
     if (isObject(value)) {
-      uniqueKey = generateKeyFromTypeAndId(value);
+      uniqueKey = generateKeyFromObject(value, uniqueSchemaFields);
       cacheAndQueue(uniqueKey, value);
     }
   });
