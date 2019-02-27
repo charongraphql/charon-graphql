@@ -6,21 +6,49 @@ const deNormalize = require('./helpers/deNormalize');
 
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
-// console.log('normalize:', normalize);
+/*
+*  @param: uri - uri for the graphql server
+*  @param: options object - any additonal options to configure the cache
+*    - headers: an object containing headers as key/value pairs
+*      to be included with requests to the server
+*    - userDefinedUniqueSchemaFields: an object where the user can set a
+*      field on any given schema to be used as the unique identifier for
+*      objects of that schemaType.
+*/
 
 class Charon {
-  constructor() {
+  constructor({
+    uri,
+    headers = { 'Content-Type': 'application/graphql' },
+    userDefinedUniqueSchemaFields = {},
+  }) {
     this.cache = {};
+    this.uri = uri;
+    this.headers = headers;
+    this.uniqueSchemaFields = {
+      default: 'id',
+      ...userDefinedUniqueSchemaFields,
+      getField(schemaType) {
+        if (this[schemaType] !== undefined) return this[schemaType];
+        return this.default;
+      },
+    };
+  }
+
+
+  queryServer(query, variables) {
+    console.log('contacting server...');
   }
 
   addResult(queryResult) {
-    const normalized = normalize(queryResult);
+    const normalized = normalize(queryResult, this.uniqueSchemaFields);
     this.cache = { ...this.cache, ...normalized };
   }
 
   readCache(query, variables) {
     console.log('reading cache...');
   }
+
 
   // TODO: check if the query exists in the cache
   checkCharonKey(query, variables) {

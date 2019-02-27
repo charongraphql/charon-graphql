@@ -4,7 +4,6 @@ module.exports = function deNormalize(flatQuery, data) {
   Object.entries(flatQuery).forEach(([field, value]) => {
     if (Array.isArray(value)) {
       graphqlFormatedQuery[field] = [];
-
       value.forEach(el => {
         graphqlFormatedQuery[field].push(deNormalize(data[el], data));
       });
@@ -15,6 +14,6 @@ module.exports = function deNormalize(flatQuery, data) {
     }
   });
   // data dynamic transformation
-
   return graphqlFormatedQuery;
 };
+

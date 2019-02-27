@@ -69,8 +69,13 @@ const result = {
   },
 };
 
-const charon = new Charon();
-/* ------------------ */
+const cacheConfig = {
+  uri: 'http://localhost:4000/graphql',
+};
+
+
+const cache = new Charon(cacheConfig);
+
 const query = `
   query getAuthorById($id: ID!) {
     author (id: $id) {
@@ -103,6 +108,7 @@ const addedData = {
     name: 'ben',
   },
 };
+
 
 const normalizedData = [
   {
