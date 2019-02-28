@@ -13,7 +13,7 @@ const DemoAppView = ({ match }) => {
     if (match.params.demo === 'demo1') {
       return (
         <ApolloProvider client={client}>
-          <CharonsList apollo />;
+          <CharonsList apollo />
         </ApolloProvider>
       );
     }

@@ -59,6 +59,7 @@ const ListingCreator = props => {
           .addListing(title, authorId)
           .then(data => {
             const addedListing = data.data.addListing;
+            console.log(data.data.addListing);
             // Hooks setState can take in a callback! why do we not need to worry about effecting state directly?
             props.setListings(listing =>
               listing.concat({
@@ -91,42 +92,44 @@ const ListingCreator = props => {
 
   return (
     <div className="listing-creator">
-      <div>
-        <h3>Total Listings:</h3> <span>{listingsCount}</span>
+      <div className="creator-tools">
+        <div>
+          <h3>Total Listings:</h3> <span>Total Count: {listingsCount}</span>
+        </div>
+        <form onSubmit={addListing}>
+          <div className="field">
+            <label>Title: </label>
+            <input
+              type="text"
+              name="title"
+              placeholder="Enter Title"
+              value={title}
+              onChange={e => {
+                setTitle(e.target.value);
+                setTitleError('✅');
+              }}
+            />
+            <span>{titleError}</span>
+          </div>
+
+          <div className="field">
+            <label>Author: </label>
+            <select
+              value={authorId}
+              onChange={e => {
+                setAuthorId(e.target.value);
+                setAuthorError('✅');
+              }}
+            >
+              <option>Select Author</option>
+              {displayAuthors()}
+            </select>
+            <span>{authorError}</span>
+          </div>
+
+          <input type="submit" value="+" />
+        </form>
       </div>
-      <form onSubmit={addListing}>
-        <div className="field">
-          <label>Title: </label>
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter Title"
-            value={title}
-            onChange={e => {
-              setTitle(e.target.value);
-              setTitleError('✅');
-            }}
-          />
-          <span>{titleError}</span>
-        </div>
-
-        <div className="field">
-          <label>Author: </label>
-          <select
-            value={authorId}
-            onChange={e => {
-              setAuthorId(e.target.value);
-              setAuthorError('✅');
-            }}
-          >
-            <option>Select Author</option>
-            {displayAuthors()}
-          </select>
-          <span>{authorError}</span>
-        </div>
-
-        <input type="submit" value="+" />
-      </form>
     </div>
   );
 };

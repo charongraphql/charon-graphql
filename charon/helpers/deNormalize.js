@@ -16,4 +16,3 @@ module.exports = function deNormalize(flatQuery, data) {
   // data dynamic transformation
   return graphqlFormatedQuery;
 };
-

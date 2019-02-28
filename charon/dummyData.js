@@ -74,7 +74,7 @@ const cacheConfig = {
 };
 
 
-const cache = new Charon(cacheConfig);
+const charon = new Charon(cacheConfig);
 
 const query = `
   query getAuthorById($id: ID!) {
@@ -108,7 +108,6 @@ const addedData = {
     name: 'ben',
   },
 };
-
 
 const normalizedData = [
   {

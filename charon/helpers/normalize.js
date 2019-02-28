@@ -55,7 +55,7 @@ function normalize(data) {
         value.forEach((element, i) => {
           let nextPush = element;
           if (isObject(element)) {
-            const uniqueKey = generateKeyFromObject(element, uniqueSchemaFields);
+            const uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
             cacheAndQueue(uniqueKey, element);
             nextPush = uniqueKey;
           }
@@ -64,7 +64,7 @@ function normalize(data) {
 
         // check if value at key is object
       } else if (isObject(value)) {
-        const uniqueKey = generateKeyFromObject(value, uniqueSchemaFields);
+        const uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
         cacheAndQueue(uniqueKey, value);
         normal[key] = uniqueKey;
         // value is neither array or object
@@ -83,7 +83,7 @@ function normalize(data) {
     if (Array.isArray(value)) {
       value.forEach((element) => {
         if (isObject(element)) {
-          uniqueKey = generateKeyFromObject(element, uniqueSchemaFields);
+          uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
           cacheAndQueue(uniqueKey, element);
         }
       });
@@ -91,7 +91,7 @@ function normalize(data) {
 
     // handle objects
     if (isObject(value)) {
-      uniqueKey = generateKeyFromObject(value, uniqueSchemaFields);
+      uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
       cacheAndQueue(uniqueKey, value);
     }
   });
