@@ -44,10 +44,16 @@ const config = {
 ```
 The configuration object defines properties that `Charon` will use when making queries or storing data in the cache. The only property that is requried to be provided is the `uri` for your GraphQL API.
 
-| Property | Description                                         | Type   | Default Value |
-| -------- | --------------------------------------------------- | ------ | ------------- |
-|`uri`     | Uniform Resource Identifier for your GraphQL API    | String | `undefined`   |
+| Property | Description                                          | Type   | Default Value |
+| -------- | ---------------------------------------------------- | ------ | ------------- |
+|`uri`     | Uniform Resource Identifier for your GraphQL API     | String | `undefined`   |
 |`headers` | Headers to include with all POST requests to the API | Object |`"Content-Type": "application/graphql"`|
+
+
+
+
+
+
 |`uniqueSchemaFields`| An object to define which field will be used as the unique identifier among a given Schema. uniqueSchemaFields allows a different field to be used for each Schema. The given field must be unique among all instances of that type, i.e. `username` for any `User`, or a `Book` stored with it's `isbn`. If no field is defined for a Schema, `Charon` will fallback to the default `'id'`. The default may be updated by providing a new value, such as `_id` or `ID`, etc. The best field to provide here is the same the database uses to distinguish individual documents. | Object |`{ default: 'id' }`|
 
 
@@ -101,7 +107,7 @@ const variables = {
 
 };
 
-charon.query(getAuthorQuery, variables)
+charon.mutate(addBookMutation, variables)
   .then(response => console.log(respose.data));
 ```
 
