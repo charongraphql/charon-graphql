@@ -1,6 +1,9 @@
 
 ![charon-graphql](./charon/assets/CharonLogo-large.png)
 
+## Charon is a lightweight client-side cache for GraphQL. 
+Charon offers a simple API and an opionated method for normalizing and storing your query data, so data can’t be stored twice. This results in more reliable updating and manipulating of cached data.
+
 
 # Installation
 Install the module from the command line using npm:
@@ -80,6 +83,8 @@ charon.query(getAuthorQuery, variables)
 ```
 
 ## Mutating Your Data
+
+Charon employs write-back caching for mutations. Pass your mutation string and variables in, and the data will be cached after it is stored in the database.
 
 ```js
 const addBookMutatition = `
