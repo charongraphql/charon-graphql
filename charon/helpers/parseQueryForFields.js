@@ -13,10 +13,10 @@ module.exports = function parseQueryForFields(query) {
       if (stripped[j] === '}') {
         if (stripped[i - 1] === undefined) {
           return Object.assign(obj, fuckfuckfuck({}, i + 1, j));
-        } else if (stripped[i - 1] !== '{') {
+        }
+        if (stripped[i - 1] !== '{') {
           obj[stripped[i - 1]] = Object.assign({}, fuckfuckfuck({}, i + 1, j));
           return obj;
-          // return Object.assign(stripped[i - 1], fuckfuckfuck(stripped[i - 1], i + 1, j));
         }
       }
     }
@@ -27,13 +27,4 @@ module.exports = function parseQueryForFields(query) {
   }
 
   return fuckfuckfuck();
-  // return rootObj;
-
-  // return output;
-
-  // if not a curly brace set element to output key
-  // if open curly bracket
-  // create an object for previous key's value
-  // if reaches closing curly break out
-  // return output
 };

@@ -45,25 +45,23 @@ class Charon {
     this.cache = { ...this.cache, ...normalized };
   }
 
-  readCache(query, variables) {
-    console.log('reading cache...');
-  }
+  // checkCharonKey(query, variables) {
+  //   return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
+  // }
 
+  checkCacheForPartial(charonKey, query) {
+    const queryFields = parseQueryForFields(query);
+    console.log('queryFields::: ', queryFields);
+    console.log('rawFromCache::: ', deNormalize(this.cache[charonKey], this.cache));
 
-  checkCharonKey(query, variables) {
-    return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
-  }
+    console.log('--------------------------------------');
+    console.log(Object.is(queryFields, this.cache[charonKey]));
 
-  checkCacheForPartial(query, variables) {
-    return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
+    return true;
   }
 
   getResultFromCache(query, variables) {
     const queryFields = parseQueryForFields(query);
-  }
-
-  checkIfQueryFieldsExist(query, variables) {
-
   }
 
   getAllCachedData() {
@@ -81,15 +79,16 @@ class Charon {
   getQueriedData(query, variables) {
     const nestedData = {};
     if (this.cache[query]) {
-      nestedData[query] = deNormalize(this.cache[query], this.cache);
-    } else if (this.checkCharonKey(query, variables)) {
-      nestedData[query] = 
-
+      return { query: deNormalize(this.cache[query], this.cache) };
+    }
+    const charonKey = generateCharonKeyFromQuery(query, variables);
+    if (this.cache[charonKey]) {
+      if (this.checkCacheForPartial(charonKey, query)) {
+        console.log('yay');
       }
       return this.getResultFromCache(query, variables);
-    } else {
-      // if not found then hit database
     }
+    // if not found then hit database
     return nestedData;
   }
 }

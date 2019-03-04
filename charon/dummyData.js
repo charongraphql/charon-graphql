@@ -82,9 +82,6 @@ const query = `
       name
       listing {
         title
-        anything
-        please
-        work
       }
   }
 }
@@ -98,9 +95,9 @@ charon.addResult(result);
 const data = charon.cache;
 
 console.log('data, ', data);
-console.log('---------------------');
+console.log('--------------------------------------');
 
-charon.checkCharonKey(query, variables);
+charon.getQueriedData(query, variables);
 
 const addedData = {
   __typename: 'Listing',
