@@ -7,14 +7,14 @@ const deNormalize = require('./helpers/deNormalize');
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
 /*
-*  @param: uri - uri for the graphql server
-*  @param: options object - any additonal options to configure the cache
-*    - headers: an object containing headers as key/value pairs
-*      to be included with requests to the server
-*    - userDefinedUniqueSchemaFields: an object where the user can set a
-*      field on any given schema to be used as the unique identifier for
-*      objects of that schemaType.
-*/
+ *  @param: uri - uri for the graphql server
+ *  @param: options object - any additonal options to configure the cache
+ *    - headers: an object containing headers as key/value pairs
+ *      to be included with requests to the server
+ *    - userDefinedUniqueSchemaFields: an object where the user can set a
+ *      field on any given schema to be used as the unique identifier for
+ *      objects of that schemaType.
+ */
 
 class Charon {
   constructor({
@@ -34,7 +34,6 @@ class Charon {
       },
     };
   }
-
 
   queryServer(query, variables) {
     console.log('contacting server...');
@@ -59,7 +58,6 @@ class Charon {
     // })
     //   .then(r => r.json())
     //   .then(data => data);
-
     return 'grabbing from database....';
   }
 
@@ -82,7 +80,7 @@ class Charon {
           if (!temp.err) {
           target[key] = temp.target;
           } else {
-            err.push(temp.err);
+            err.push(...temp.err);
           }
         } else if (target[key].constructor === Array) {
           // how do i find out which object from the target correlates to the object in the array?
@@ -93,7 +91,7 @@ class Charon {
             target[key][index] = temp.target;
           }
           else {
-            err.push(temp.err);
+            err.push(...temp.err);
           }
           });
         } else {
@@ -111,13 +109,10 @@ class Charon {
       // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
       nestedData[charonKey] = deNormalize(queryBody, this.cache);
     });
-
     return nestedData;
   }
 
-  // //from cache
   getQueriedData(query, variables) {
-    const nestedData = {};
     if (this.cache[query]) {
       return { query: deNormalize(this.cache[query], this.cache) };
     }
@@ -128,7 +123,6 @@ class Charon {
         return { target };
       }
     }
-    // if not found then hit database
     return this.forceFetchFromDatabase(query, variables);
   }
 }

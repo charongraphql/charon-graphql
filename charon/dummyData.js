@@ -82,7 +82,6 @@ const query = `
       name
       listing {
         title
-        pickle
       }
   }
 }
@@ -100,6 +99,7 @@ console.log('--------------------------------------');
 
 const yesyesyes = JSON.stringify(charon.getQueriedData(query, variables), null, 2);
 console.log('did it work????: ', yesyesyes);
+
 const addedData = {
   __typename: 'Listing',
   id: '69',
@@ -124,4 +124,4 @@ const normalizedData = [
   },
 ];
 
-module.exports = { result, addedData, normalizedData };
+module.exports = result;
