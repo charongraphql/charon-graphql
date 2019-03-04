@@ -7,9 +7,9 @@ const DemoContainer = () => (
   <Router>
     <div className="demo-container">
       <div className="demo-links">
-        <Link to="/demo1">demo 1</Link>
-        <Link to="/demo2">demo 2</Link>
-        <Link to="/demo3">demo 3</Link>
+        <Link to="/demo1">Demo 1</Link>
+        <Link to="/demo2">Demo 2</Link>
+        <Link to="/demo3">Demo 3</Link>
       </div>
       <Switch>
         <Redirect from="/" exact to="/demo1" />

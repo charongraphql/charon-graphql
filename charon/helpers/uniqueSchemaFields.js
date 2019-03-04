@@ -12,6 +12,10 @@ module.exports = {
   add(schemaType, identifier) {
     this[schemaType] = identifier;
   },
-  setDefault(identifier) { this.default = identifier; },
-  remove(schemaType) { delete this[schemaType]; },
+  setDefault(identifier) {
+    this.default = identifier;
+  },
+  remove(schemaType) {
+    delete this[schemaType];
+  },
 };
