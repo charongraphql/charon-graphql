@@ -45,16 +45,13 @@ class Charon {
     this.cache = { ...this.cache, ...normalized };
   }
 
-  // checkCharonKey(query, variables) {
-  //   return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
-  // }
+  forceFetchFromDatabase(query, variables) {
+    return 'from the database';
+  }
 
   checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
-    console.log('queryFields::: ', queryFields);
     const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
-
-    console.log('--------------------------------------');
     return this.deepObjectDotAssign(queryFields, rawFromCache);
   }
 
@@ -66,7 +63,23 @@ class Charon {
       if (!source[key]) {
         err.push(entry);
       } else {
-        target[key] = source[key];
+        if (target[key].constructor === Object) {
+          const temp = this.deepObjectDotAssign(target[key], source[key]);
+          if (!temp.err) {
+          target[key] = temp.target;
+          }
+        } else if (target[key].constructor === Array) {
+          // how do i find out which object from the target correlates to the object in the array?
+          // they can, and maybe will be out of order
+          target[key].forEach((nestedObj, index) => {
+            const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
+            if (!temp.err) {
+            target[key][index] = temp.target;
+          }
+          });
+        } else {
+          target[key] = source[key];
+        }
       }
     });
     return { target, err };
@@ -92,12 +105,12 @@ class Charon {
     const charonKey = generateCharonKeyFromQuery(query, variables);
     if (this.cache[charonKey]) {
       const { err, target } = this.checkCacheForPartial(charonKey, query);
-      if (err.length) {
+      if (!err.length) {
         return { target };
       }
     }
     // if not found then hit database
-    return nestedData;
+    return this.forceFetchFromDatabase(query, variables);
   }
 }
 
