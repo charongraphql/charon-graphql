@@ -187,9 +187,9 @@ a:hover {
   /* border: 1px solid blue; */
   display: grid;
   /* grid-template-rows: 36%, 36%, 28%; */
-  /* grid-template-rows: 250px 250px 230px; */
-  grid-gap: 15px;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 250px 250px 230px;
+  /* grid-gap: 15px; */
+  /* grid-template-rows: 1fr 1fr 1fr; */
 
   align-items: start;
   /* height: 730px; */
@@ -216,9 +216,9 @@ a:hover {
   /* border: 1px solid rgba(0,0,0,0.1); */
   /* border: 1px solid black; */
   border-radius: 5px;
-  /* overflow: hidden; */
-  /* overflow-y: scroll; */
-  /* height: 205px; */
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 205px;
   margin-left: 1rem;
   margin-right: 1rem;
   min-width: 275px;

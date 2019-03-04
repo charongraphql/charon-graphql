@@ -69,10 +69,10 @@ const result = {
   },
 };
 
+/* ------------------------------------------- */
 const cacheConfig = {
   uri: 'http://localhost:4000/graphql',
 };
-
 
 const charon = new Charon(cacheConfig);
 
@@ -89,14 +89,16 @@ const query = `
 const variables = {
   id: 3,
 };
-/* ------------------ */
+/* ------------------------------------------ */
 
-charon.addResult(result.data);
+charon.addResult(result);
 const data = charon.cache;
 
 console.log('data, ', data);
+console.log('--------------------------------------');
 
-charon.checkCharonKey(query, variables);
+const yesyesyes = JSON.stringify(charon.getQueriedData(query, variables), null, 2);
+console.log('did it work????: ', yesyesyes);
 
 const addedData = {
   __typename: 'Listing',
@@ -122,4 +124,4 @@ const normalizedData = [
   },
 ];
 
-module.exports = { result, addedData, normalizedData };
+module.exports = result;
