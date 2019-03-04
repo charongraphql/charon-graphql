@@ -46,7 +46,21 @@ class Charon {
   }
 
   forceFetchFromDatabase(query, variables) {
-    return 'from the database';
+    // return fetch('/graphql', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Accept: 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     query,
+    //     variables,
+    //   }),
+    // })
+    //   .then(r => r.json())
+    //   .then(data => data);
+
+    return 'grabbing from database....';
   }
 
   checkCacheForPartial(charonKey, query) {
