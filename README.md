@@ -1,6 +1,9 @@
 
 ![charon-graphql](./charon/assets/CharonLogo-large.png)
 
+## Charon is a lightweight client-side cache for GraphQL. 
+Charon offers a simple API and an opionated method for normalizing and storing your query data, so data can’t be stored twice. This results in more reliable updating and manipulating of cached data.
+
 
 # Installation
 Install the module from the command line using npm:
@@ -48,12 +51,6 @@ The configuration object defines properties that `Charon` will use when making q
 | -------- | ---------------------------------------------------- | ------ | ------------- |
 |`uri`     | Uniform Resource Identifier for your GraphQL API     | String | `undefined`   |
 |`headers` | Headers to include with all POST requests to the API | Object |`"Content-Type": "application/graphql"`|
-
-
-
-
-
-
 |`uniqueSchemaFields`| An object to define which field will be used as the unique identifier among a given Schema. uniqueSchemaFields allows a different field to be used for each Schema. The given field must be unique among all instances of that type, i.e. `username` for any `User`, or a `Book` stored with it's `isbn`. If no field is defined for a Schema, `Charon` will fallback to the default `'id'`. The default may be updated by providing a new value, such as `_id` or `ID`, etc. The best field to provide here is the same the database uses to distinguish individual documents. | Object |`{ default: 'id' }`|
 
 
@@ -86,6 +83,8 @@ charon.query(getAuthorQuery, variables)
 ```
 
 ## Mutating Your Data
+
+Charon employs write-back caching for mutations. Pass your mutation string and variables in, and the data will be cached after it is stored in the database.
 
 ```js
 const addBookMutatition = `
