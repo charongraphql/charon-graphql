@@ -26,6 +26,7 @@ const StateDisplay = ({ data, title }) => (
         displayObjectSize={false}
         displayDataTypes={false}
         groupArraysAfterLength={50}
+        sortKeys={false}
       />
     </div>
   </div>
