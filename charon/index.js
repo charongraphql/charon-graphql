@@ -52,16 +52,24 @@ class Charon {
   checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
     console.log('queryFields::: ', queryFields);
-    console.log('rawFromCache::: ', deNormalize(this.cache[charonKey], this.cache));
+    const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
 
     console.log('--------------------------------------');
-    console.log(Object.is(queryFields, this.cache[charonKey]));
-
-    return true;
+    return this.deepObjectDotAssign(queryFields, rawFromCache);
   }
 
-  getResultFromCache(query, variables) {
-    const queryFields = parseQueryForFields(query);
+  deepObjectDotAssign(target, source) {
+    const err = [];
+    Object.entries(target).forEach((entry) => {
+      const key = entry[0];
+      const value = entry[1];
+      if (!source[key]) {
+        err.push(entry);
+      } else {
+        target[key] = source[key];
+      }
+    });
+    return { target, err };
   }
 
   getAllCachedData() {
@@ -83,10 +91,10 @@ class Charon {
     }
     const charonKey = generateCharonKeyFromQuery(query, variables);
     if (this.cache[charonKey]) {
-      if (this.checkCacheForPartial(charonKey, query)) {
-        console.log('yay');
+      const { err, target } = this.checkCacheForPartial(charonKey, query);
+      if (err.length) {
+        return { target };
       }
-      return this.getResultFromCache(query, variables);
     }
     // if not found then hit database
     return nestedData;

@@ -15,7 +15,7 @@ module.exports = function parseQueryForFields(query) {
           return Object.assign(obj, fuckfuckfuck({}, i + 1, j));
         }
         if (stripped[i - 1] !== '{') {
-          obj[stripped[i - 1]] = Object.assign({}, fuckfuckfuck({}, i + 1, j));
+          obj[stripped[i - 1]] = [Object.assign({}, fuckfuckfuck({}, i + 1, j))];
           return obj;
         }
       }
