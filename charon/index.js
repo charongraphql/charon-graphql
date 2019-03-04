@@ -50,28 +50,20 @@ class Charon {
   }
 
 
-  // TODO: check if the query exists in the cache
   checkCharonKey(query, variables) {
-    // need to handle if the query string doesnt exist
-    // if it doesnt exist then find its charon key and iterate through cache
-    // returns a boolean
-    const charonKey = generateCharonKeyFromQuery(query, variables);
-    // grabs fields from the query
+    return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
+  }
+
+  checkCacheForPartial(query, variables) {
+    return this.cache[generateCharonKeyFromQuery(query, variables)] !== undefined;
+  }
+
+  getResultFromCache(query, variables) {
     const queryFields = parseQueryForFields(query);
-    console.log('queryFields', queryFields);
+  }
 
-    // check if charonKey exists in the cache
-    if (this.cache[charonKey]) {
-      const rawFromCache = this.cache[charonKey];
-      console.log('rawFromCache', rawFromCache);
-    }
+  checkIfQueryFieldsExist(query, variables) {
 
-    // denormalize rawFromCache
-    // parse through and match queryFields to denormalized data
-
-    // normalize query
-    // parse through and match queryFields to normalized data
-    // return denormalized stripped data
   }
 
   getAllCachedData() {
@@ -85,13 +77,16 @@ class Charon {
     return nestedData;
   }
 
-  getQueriedData(query) {
+  // //from cache
+  getQueriedData(query, variables) {
     const nestedData = {};
     if (this.cache[query]) {
-      // last worked on
       nestedData[query] = deNormalize(this.cache[query], this.cache);
-    } else if (this.checkCharonKey(query)) {
-      console.log('hit');
+    } else if (this.checkCharonKey(query, variables)) {
+      nestedData[query] = 
+
+      }
+      return this.getResultFromCache(query, variables);
     } else {
       // if not found then hit database
     }
