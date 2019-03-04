@@ -67,6 +67,8 @@ class Charon {
           const temp = this.deepObjectDotAssign(target[key], source[key]);
           if (!temp.err) {
           target[key] = temp.target;
+          } else {
+            err.push(temp.err);
           }
         } else if (target[key].constructor === Array) {
           // how do i find out which object from the target correlates to the object in the array?
@@ -75,6 +77,9 @@ class Charon {
             const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
             if (!temp.err) {
             target[key][index] = temp.target;
+          }
+          else {
+            err.push(temp.err);
           }
           });
         } else {
