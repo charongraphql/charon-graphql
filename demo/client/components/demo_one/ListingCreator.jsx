@@ -9,6 +9,7 @@ const ListingCreator = props => {
     if (!props.getListingsQuery.loading) {
       // waits till loading complete to set correct length
       setListingsCount(props.listings.length);
+      console.log(props.listings);
     }
   });
   // creates flag to ensure useEffect does not perpetually fetch listings

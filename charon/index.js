@@ -7,14 +7,14 @@ const deNormalize = require('./helpers/deNormalize');
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
 /*
-*  @param: uri - uri for the graphql server
-*  @param: options object - any additonal options to configure the cache
-*    - headers: an object containing headers as key/value pairs
-*      to be included with requests to the server
-*    - userDefinedUniqueSchemaFields: an object where the user can set a
-*      field on any given schema to be used as the unique identifier for
-*      objects of that schemaType.
-*/
+ *  @param: uri - uri for the graphql server
+ *  @param: options object - any additonal options to configure the cache
+ *    - headers: an object containing headers as key/value pairs
+ *      to be included with requests to the server
+ *    - userDefinedUniqueSchemaFields: an object where the user can set a
+ *      field on any given schema to be used as the unique identifier for
+ *      objects of that schemaType.
+ */
 
 class Charon {
   constructor({
@@ -35,7 +35,6 @@ class Charon {
     };
   }
 
-
   queryServer(query, variables) {
     console.log('contacting server...');
   }
@@ -45,33 +44,62 @@ class Charon {
     this.cache = { ...this.cache, ...normalized };
   }
 
-  readCache(query, variables) {
-    console.log('reading cache...');
+  forceFetchFromDatabase(query, variables) {
+    // return fetch('/graphql', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Accept: 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     query,
+    //     variables,
+    //   }),
+    // })
+    //   .then(r => r.json())
+    //   .then(data => data);
+    return 'grabbing from database....';
   }
 
-
-  // TODO: check if the query exists in the cache
-  checkCharonKey(query, variables) {
-    // need to handle if the query string doesnt exist
-    // if it doesnt exist then find its charon key and iterate through cache
-    // returns a boolean
-    const charonKey = generateCharonKeyFromQuery(query, variables);
-    // grabs fields from the query
+  checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
-    console.log('queryFields', queryFields);
+    const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
+    return this.deepObjectDotAssign(queryFields, rawFromCache);
+  }
 
-    // check if charonKey exists in the cache
-    if (this.cache[charonKey]) {
-      const rawFromCache = this.cache[charonKey];
-      console.log('rawFromCache', rawFromCache);
-    }
-
-    // denormalize rawFromCache
-    // parse through and match queryFields to denormalized data
-
-    // normalize query
-    // parse through and match queryFields to normalized data
-    // return denormalized stripped data
+  deepObjectDotAssign(target, source) {
+    const err = [];
+    Object.entries(target).forEach((entry) => {
+      const key = entry[0];
+      const value = entry[1];
+      if (!source[key]) {
+        err.push(entry);
+      } else {
+        if (target[key].constructor === Object) {
+          const temp = this.deepObjectDotAssign(target[key], source[key]);
+          if (!temp.err) {
+          target[key] = temp.target;
+          } else {
+            err.push(...temp.err);
+          }
+        } else if (target[key].constructor === Array) {
+          // how do i find out which object from the target correlates to the object in the array?
+          // they can, and maybe will be out of order
+          target[key].forEach((nestedObj, index) => {
+            const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
+            if (!temp.err) {
+            target[key][index] = temp.target;
+          }
+          else {
+            err.push(...temp.err);
+          }
+          });
+        } else {
+          target[key] = source[key];
+        }
+      }
+    });
+    return { target, err };
   }
 
   getAllCachedData() {
@@ -81,21 +109,21 @@ class Charon {
       // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
       nestedData[charonKey] = deNormalize(queryBody, this.cache);
     });
-
     return nestedData;
   }
 
-  getQueriedData(query) {
-    const nestedData = {};
+  getQueriedData(query, variables) {
     if (this.cache[query]) {
-      // last worked on
-      nestedData[query] = deNormalize(this.cache[query], this.cache);
-    } else if (this.checkCharonKey(query)) {
-      console.log('hit');
-    } else {
-      // if not found then hit database
+      return { query: deNormalize(this.cache[query], this.cache) };
     }
-    return nestedData;
+    const charonKey = generateCharonKeyFromQuery(query, variables);
+    if (this.cache[charonKey]) {
+      const { err, target } = this.checkCacheForPartial(charonKey, query);
+      if (!err.length) {
+        return { target };
+      }
+    }
+    return this.forceFetchFromDatabase(query, variables);
   }
 }
 
