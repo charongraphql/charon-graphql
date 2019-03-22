@@ -1,0 +1,20 @@
+{
+  "name": "charon-graphql",
+  "version": "1.0.4",
+  "description": "Charon offers a simple API and an opionated method for normalizing and storing your query data, so data can’t be stored twice. This results in more reliable updating and manipulating of cached data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "charon",
+    "graphQL",
+    "graph",
+    "cache",
+    "invalidation",
+    "charon-graphql",
+    "npm"
+  ],
+  "author": "Chang Moon, Joel Burton, Ben Woodson",
+  "license": "ISC"
+}

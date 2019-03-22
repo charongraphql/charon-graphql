@@ -1,4 +1,4 @@
-![charon-graphql](./charon/assets/CharonLogo-large.png)
+![charon-graphql](https://imgur.com/a/TN2nmy2)
 
 ## Charon is a lightweight client-side cache for GraphQL.
 
