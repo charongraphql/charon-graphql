@@ -69,34 +69,30 @@ class Charon {
 
   deepObjectDotAssign(target, source) {
     const err = [];
-    Object.entries(target).forEach((entry) => {
+    Object.entries(target).forEach(entry => {
       const key = entry[0];
-      const value = entry[1];
       if (!source[key]) {
         err.push(entry);
-      } else {
-        if (target[key].constructor === Object) {
-          const temp = this.deepObjectDotAssign(target[key], source[key]);
-          if (!temp.err) {
+      } else if (target[key].constructor === Object) {
+        const temp = this.deepObjectDotAssign(target[key], source[key]);
+        if (!temp.err) {
           target[key] = temp.target;
+        } else {
+          err.push(...temp.err);
+        }
+      } else if (target[key].constructor === Array) {
+        // how do i find out which object from the target correlates to the object in the array?
+        // they can, and maybe will be out of order
+        target[key].forEach((nestedObj, index) => {
+          const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
+          if (!temp.err) {
+            target[key][index] = temp.target;
           } else {
             err.push(...temp.err);
           }
-        } else if (target[key].constructor === Array) {
-          // how do i find out which object from the target correlates to the object in the array?
-          // they can, and maybe will be out of order
-          target[key].forEach((nestedObj, index) => {
-            const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
-            if (!temp.err) {
-            target[key][index] = temp.target;
-          }
-          else {
-            err.push(...temp.err);
-          }
-          });
-        } else {
-          target[key] = source[key];
-        }
+        });
+      } else {
+        target[key] = source[key];
       }
     });
     return { target, err };
@@ -104,7 +100,6 @@ class Charon {
 
   getAllCachedData() {
     const nestedData = {};
-
     Object.entries(this.cache).forEach(([charonKey, queryBody]) => {
       // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
       nestedData[charonKey] = deNormalize(queryBody, this.cache);

@@ -28,7 +28,6 @@ function normalize(data) {
   const cacheAndQueue = (key, obj) => {
     // store obj in cache under key if it doesn't exist there yet
     if (flat[key] === undefined) flat[key] = obj;
-
     // add key to queue
     queue[enqueueIndex] = key;
 
@@ -45,7 +44,7 @@ function normalize(data) {
     return key;
   };
 
-  const normalizeObject = (obj) => {
+  const normalizeObject = obj => {
     const normal = {};
     Object.entries(obj).forEach(([key, value]) => {
       // check if value at key is array
@@ -77,11 +76,11 @@ function normalize(data) {
 
   // create keys and normalize object in topmost level
   // have to access the data object to get object
-  Object.values(data).forEach((value) => {
+  Object.values(data).forEach(value => {
     let uniqueKey;
     // handle arrays
     if (Array.isArray(value)) {
-      value.forEach((element) => {
+      value.forEach(element => {
         if (isObject(element)) {
           uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
           cacheAndQueue(uniqueKey, element);

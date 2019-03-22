@@ -1,3 +1,10 @@
+import Charon from 'charon-graphql';
+
+const config = {
+  uri: '/graphql',
+};
+const cache = new Charon(config);
+
 const gql = {
   getListings: () => {
     return fetch('/graphql', {
@@ -63,7 +70,10 @@ const gql = {
       }),
     })
       .then(r => r.json())
-      .then(data => data);
+      .then(data => {
+        cache.addResult(data);
+        return data;
+      });
   },
 
   deleteListing: id => {
@@ -90,4 +100,4 @@ const gql = {
   },
 };
 
-export default gql;
+export default { gql, cache };
