@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+const sh = require('shorthash');
 const generateCharonKeyFromQuery = require('./helpers/generateCharonKeyFromQuery');
 const parseQueryForFields = require('./helpers/parseQueryForFields');
 const normalize = require('./helpers/normalize');
@@ -39,8 +40,9 @@ class Charon {
     console.log('contacting server...');
   }
 
-  addResult(queryResult) {
-    const normalized = normalize(queryResult, this.uniqueSchemaFields);
+  addResult(queryResult, query) {
+    // shorthen query string with hash
+    const normalized = normalize(queryResult, sh.unique(query));
     this.cache = { ...this.cache, ...normalized };
   }
 

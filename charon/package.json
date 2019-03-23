@@ -29,5 +29,8 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.5.0"
+  },
+  "dependencies": {
+    "shorthash": "0.0.2"
   }
 }

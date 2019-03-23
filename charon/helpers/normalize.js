@@ -8,14 +8,14 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   normalizeObj object uses the uniqueSchemaFields object
   to determine which property to use as the unique identifier
 */
-const generateKeyFromTypeAndId = obj => {
-  const schemaType = obj.__typename ? obj.__typename : 'aishdf';
+const generateKeyFromTypeAndId = (obj, query) => {
+  const schemaType = obj.__typename ? obj.__typename : query;
   const field = uniqueSchemaFields.getField(schemaType);
-  const id = obj[field] ? obj[field] : 'asdfas';
+  const id = obj[field] ? obj[field] : '';
   return `${schemaType}:${id}`;
 };
 
-function normalize(data) {
+function normalize(data, query) {
   const flat = {};
 
   // chose to use object to act as queue
@@ -54,7 +54,7 @@ function normalize(data) {
         value.forEach((element, i) => {
           let nextPush = element;
           if (isObject(element)) {
-            const uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
+            const uniqueKey = generateKeyFromTypeAndId(element);
             cacheAndQueue(uniqueKey, element);
             nextPush = uniqueKey;
           }
@@ -63,7 +63,7 @@ function normalize(data) {
 
         // check if value at key is object
       } else if (isObject(value)) {
-        const uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
+        const uniqueKey = generateKeyFromTypeAndId(value);
         cacheAndQueue(uniqueKey, value);
         normal[key] = uniqueKey;
         // value is neither array or object
@@ -82,7 +82,7 @@ function normalize(data) {
     if (Array.isArray(value)) {
       value.forEach(element => {
         if (isObject(element)) {
-          uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
+          uniqueKey = generateKeyFromTypeAndId(element);
           cacheAndQueue(uniqueKey, element);
         }
       });
@@ -90,7 +90,7 @@ function normalize(data) {
 
     // handle objects
     if (isObject(value)) {
-      uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
+      uniqueKey = generateKeyFromTypeAndId(value, query);
       cacheAndQueue(uniqueKey, value);
     }
   });

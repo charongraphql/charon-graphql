@@ -50,7 +50,7 @@ const variables = {
 };
 /* ------------------------------------------ */
 
-charon.addResult(result);
+charon.addResult(result, query);
 const data = charon.cache;
 
 console.log('data, ', data);

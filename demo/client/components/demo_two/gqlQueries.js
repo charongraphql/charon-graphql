@@ -2,6 +2,18 @@ import charon from './cache';
 
 const gql = {
   getListings: () => {
+    const query = `{ 
+      listings {
+        __typename 
+        id 
+        title 
+        author { 
+          __typename
+          id 
+          name 
+        } 
+      } 
+    }`;
     return fetch('/api/graphql', {
       method: 'POST',
       headers: {
@@ -9,24 +21,13 @@ const gql = {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        query: `{ 
-          listings {
-            __typename 
-            id 
-            title 
-            author { 
-              __typename
-              id 
-              name 
-            } 
-          } 
-        }`,
+        query,
       }),
     })
       .then(r => r.json())
       .then(data => {
         console.log('the actual data::: ', JSON.stringify(data, null, 2));
-        charon.addResult(data);
+        charon.addResult(data, query);
         console.log('the charon cache::: ', JSON.stringify(charon.cache, null, 2));
 
         return data;
