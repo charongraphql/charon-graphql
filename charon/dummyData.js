@@ -1,6 +1,18 @@
 /* eslint-disable quotes, quote-props, comma-dangle, no-console */
 const Charon = require('./index');
 
+const query = `{ 
+  listings {
+    __typename 
+    id 
+    title 
+    author { 
+      __typename
+      id 
+      name 
+    } 
+  } 
+}`;
 const result = {
   data: {
     listings: [
@@ -35,7 +47,7 @@ const cacheConfig = {
 
 const charon = new Charon(cacheConfig);
 
-const query = `
+const queryOne = `
   query getAuthorById($id: ID!) {
     author (id: $id) {
       name
@@ -46,7 +58,7 @@ const query = `
 }
 `;
 const variables = {
-  id: 3,
+  id: 1,
 };
 /* ------------------------------------------ */
 
@@ -56,7 +68,7 @@ const data = charon.cache;
 console.log('data, ', data);
 console.log('--------------------------------------');
 
-const yesyesyes = JSON.stringify(charon.getQueriedData(query, variables), null, 2);
+const yesyesyes = JSON.stringify(charon.getQueriedData(queryOne, variables), null, 2);
 console.log('did it work????: ', yesyesyes);
 
 const addedData = {
