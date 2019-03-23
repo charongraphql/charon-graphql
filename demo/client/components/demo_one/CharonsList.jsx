@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import ListingCreator from './ListingCreator';
 import ListingsContainer from './ListingsContainer';
-import ListingCreatorVanilla from '../demo_two/ListingCreator';
-import ListingsContainerVanilla from '../demo_two/ListingsContainer';
+import ListingCreatorVanilla from '../demo_two/ListingCreatorVanilla';
+import ListingsContainerVanilla from '../demo_two/ListingsContainerVanilla';
 
-const CharonsList = ({ apollo }) => {
+const CharonsList = () => {
   // React Hooooks
 
   // [<piece of state>, <method to update that piece of state>]

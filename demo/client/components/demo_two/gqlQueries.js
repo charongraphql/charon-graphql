@@ -3,11 +3,12 @@ import Charon from 'charon-graphql';
 const config = {
   uri: '/graphql',
 };
-const cache = new Charon(config);
 
 const gql = {
+  cache: new Charon(config),
+
   getListings: () => {
-    return fetch('/graphql', {
+    return fetch('/api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +27,10 @@ const gql = {
       }),
     })
       .then(r => r.json())
-      .then(data => data);
+      .then(data => {
+        this.cache.addResult(data);
+        return data;
+      });
   },
 
   getAuthors: () => {
@@ -71,7 +75,7 @@ const gql = {
     })
       .then(r => r.json())
       .then(data => {
-        cache.addResult(data);
+        this.cache.addResult(data);
         return data;
       });
   },
@@ -100,4 +104,4 @@ const gql = {
   },
 };
 
-export default { gql, cache };
+export default gql;

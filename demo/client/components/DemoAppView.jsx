@@ -2,7 +2,7 @@ import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import CharonsList from './demo_one/CharonsList';
-import CharonsListVanilla from './demo_two/CharonsList';
+import CharonsListVanilla from './demo_two/CharonsListVanilla';
 
 // Apollo Client Setup
 const client = new ApolloClient({
@@ -23,7 +23,7 @@ const DemoAppView = ({ match }) => {
       return <CharonsListVanilla />;
     }
     if (match.params.demo === 'demo3') {
-      return <CharonsList />;
+      return <div> coming soon </div>;
     }
     return <span>Error...</span>;
   };

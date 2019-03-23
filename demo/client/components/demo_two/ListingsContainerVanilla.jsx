@@ -7,10 +7,10 @@ import gql from './gqlQueries';
 const ListingsContainer = ({ setListings, listings }) => {
   // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
-  console.log('Listing container');
   // component did mount/update, setListing to fetched data.
   useEffect(() => {
     if (!initialized) {
+      console.log('should show up once');
       gql.getListings().then(data => {
         setListings(data.data.listings); // really???
       });
