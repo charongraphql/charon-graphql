@@ -9,16 +9,8 @@ import Header from './components/Header';
 import DemoContainer from './components/DemoContainer';
 import ErrorPage from './components/ErrorPage';
 
-// // Apollo Client Setup
-// const client = new ApolloClient({
-//   // server endpoint
-//   uri: 'http://localhost:4000/graphql',
-// });
-
 const App = () => (
   <Gradient>
-    {/* makes graphQL/queries accessible to bind to components */}
-    {/* <ApolloProvider client={client}> */}
     <Router>
       <div className="app">
         <Header />
@@ -26,14 +18,12 @@ const App = () => (
           <Route path="/" component={DemoContainer} exact />
           <Route path="/about" />
           <Route path="/docs" />
-          {/* going to figure out how to open a new tab with router... */}
           <Route path="/github" />
           <Route path="/npm" />
           <Route component={ErrorPage} />
         </Switch>
       </div>
     </Router>
-    {/* </ApolloProvider> */}
   </Gradient>
 );
 

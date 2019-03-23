@@ -5,8 +5,6 @@ import ListingCreatorVanilla from '../demo_two/ListingCreatorVanilla';
 import ListingsContainerVanilla from '../demo_two/ListingsContainerVanilla';
 
 const CharonsList = () => {
-  // React Hooooks
-
   // [<piece of state>, <method to update that piece of state>]
   // empty array in useState initializes listings as an empty array
   const [listings, setListings] = useState([]);

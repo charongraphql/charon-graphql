@@ -6,7 +6,6 @@ import Listing from './Listing';
 import Pagination from '../Pagination';
 
 const ListingsContainer = ({ getListingsQuery, deleteListingMutation, setListings, listings }) => {
-  // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
 
   // component did mount/update, setListing to fetched data.
@@ -23,11 +22,6 @@ const ListingsContainer = ({ getListingsQuery, deleteListingMutation, setListing
       variables: {
         id: listingId,
       },
-      // refetchQueries: [
-      //   {
-      //     query: getListingsQuery,
-      //   },
-      // ],
     });
 
     // deleting the listing from displayed props
@@ -51,10 +45,7 @@ const ListingsContainer = ({ getListingsQuery, deleteListingMutation, setListing
 
   return (
     <div className="listings-container">
-      <div className="listings">
-        {/* displaying mapped components */}
-        {getAllListing()}
-      </div>
+      <div className="listings">{getAllListing()}</div>
       <div className="listing-pagination">
         <Pagination />
       </div>

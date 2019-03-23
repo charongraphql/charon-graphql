@@ -13,21 +13,18 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
       setListingsCount(listings.length);
     }
   });
-  // creates flag to ensure useEffect does not perpetually fetch listings
 
+  // creates flag to ensure useEffect does not perpetually fetch listings
   useEffect(() => {
     // condition for intial loading of listings - similiar to compdidMount
     // without this initialized check useEffect will also act like compDidUpdate
     if (!initialized) {
-      //! props.getListingsQuery.loading &&
       gql.getListings().then(res => {
         setListingsCount(res.data.listings.length);
       });
       gql.getAuthors().then(res => {
         setAuthors(res.data.authors);
       });
-
-      // console.log('this should only be called when page refreshes');
       setInitialized(true);
     }
   });
@@ -49,11 +46,8 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
 
   const addListing = e => {
     e.preventDefault();
-    // TODO: send data to db w/ author_id
     if (title) {
       if (authorId) {
-        // passed in from queries module
-        // call to add item to db -> hits endpoint which holds schema -> once called, that sends to db
         gql
           .addListing(title, authorId)
           .then(res => {
@@ -77,8 +71,6 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
 
   const displayAuthors = () => {
     return authors.map(author => (
-      // jsx / html issue
-      // option tag can only take one value attribute
       <option key={author.id} value={author.id}>
         {author.name}
       </option>
@@ -93,32 +85,36 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
         </div>
         <form onSubmit={addListing}>
           <div className="field">
-            <label>Title: </label>
-            <input
-              type="text"
-              name="title"
-              placeholder="Enter Title"
-              value={title}
-              onChange={e => {
-                setTitle(e.target.value);
-                setTitleError('✅');
-              }}
-            />
+            <label>
+              Title:
+              <input
+                type="text"
+                name="title"
+                placeholder="Enter Title"
+                value={title}
+                onChange={e => {
+                  setTitle(e.target.value);
+                  setTitleError('✅');
+                }}
+              />
+            </label>
             <span>{titleError}</span>
           </div>
 
           <div className="field">
-            <label>Author: </label>
-            <select
-              value={authorId}
-              onChange={e => {
-                setAuthorId(e.target.value);
-                setAuthorError('✅');
-              }}
-            >
-              <option>Select Author</option>
-              {displayAuthors()}
-            </select>
+            <label>
+              Author:
+              <select
+                value={authorId}
+                onChange={e => {
+                  setAuthorId(e.target.value);
+                  setAuthorError('✅');
+                }}
+              >
+                <option>Select Author</option>
+                {displayAuthors()}
+              </select>
+            </label>
             <span>{authorError}</span>
           </div>
 

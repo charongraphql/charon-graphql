@@ -1,21 +1,5 @@
 import { gql } from 'apollo-boost';
 
-// Queries
-// const queries = {
-//   getListingsQuery: gql`
-//   {
-//     listings {
-//       id
-//       title
-//       author {
-//         id
-//         name
-//       }
-//     }
-//   }
-// `,
-// };
-
 const getListingsQuery = gql`
   {
     listings {
