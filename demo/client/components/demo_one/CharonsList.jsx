@@ -11,23 +11,11 @@ const CharonsList = ({ apollo }) => {
   // empty array in useState initializes listings as an empty array
   const [listings, setListings] = useState([]);
 
-  const ActivateApollo = () => {
-    if (apollo) {
-      return (
-        <>
-          <ListingCreator listings={listings} setListings={setListings} />
-          <ListingsContainer listings={listings} setListings={setListings} />
-        </>
-      );
-    }
-    return (
-      <>
-        <ListingCreatorVanilla listings={listings} setListings={setListings} />
-        <ListingsContainerVanilla listings={listings} setListings={setListings} />
-      </>
-    );
-  };
-
-  return <div className="charons-list">{ActivateApollo()}</div>;
+  return (
+    <div className="charons-list">
+      <ListingCreator listings={listings} setListings={setListings} />
+      <ListingsContainer listings={listings} setListings={setListings} />
+    </div>
+  );
 };
 export default CharonsList;
