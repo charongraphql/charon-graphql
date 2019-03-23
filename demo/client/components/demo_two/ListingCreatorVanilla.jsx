@@ -24,7 +24,6 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
         setListingsCount(res.data.listings.length);
       });
       gql.getAuthors().then(res => {
-        console.log('authors', res);
         setAuthors(res.data.authors);
       });
 
@@ -57,10 +56,8 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
         // call to add item to db -> hits endpoint which holds schema -> once called, that sends to db
         gql
           .addListing(title, authorId)
-          .then(data => {
-            const addedListing = data.data.addListing;
-            console.log(data.data.addListing);
-            // Hooks setState can take in a callback! why do we not need to worry about effecting state directly?
+          .then(res => {
+            const addedListing = res.data.addListing;
             setListings(listing =>
               listing.concat({
                 id: addedListing.id,
@@ -68,7 +65,6 @@ const ListingCreatorVanilla = ({ setListings, listings }) => {
                 author: addedListing.author,
               }),
             );
-            // reset title to empty
             setTitle('');
             setAuthorId('');
           })

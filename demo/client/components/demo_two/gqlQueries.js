@@ -48,7 +48,7 @@ const gql = {
       .then(data => data);
   },
 
-  addListing: (id, title) => {
+  addListing: (title, id) => {
     return fetch('api/graphql', {
       method: 'POST',
       headers: {
