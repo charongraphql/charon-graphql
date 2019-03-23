@@ -1,69 +1,40 @@
 /* eslint-disable quotes, quote-props, comma-dangle, no-console */
 const Charon = require('./index');
 
+const query = `{ 
+  listings {
+    __typename 
+    id 
+    title 
+    author { 
+      __typename
+      id 
+      name 
+    } 
+  } 
+}`;
 const result = {
   data: {
-    authors: [
+    listings: [
       {
-        __typename: 'Author',
+        __typename: 'Listing',
         id: '1',
-        name: 'ben',
-        listing: [
-          {
-            __typename: 'Listing',
-            id: '66',
-            title: 'refrigerator',
-            author: {
-              __typename: 'Author',
-              id: '1',
-              name: 'ben',
-            },
-          },
-        ],
+        title: 'Someting',
+        author: {
+          __typename: 'Author',
+          id: '1',
+          name: 'Chang',
+        },
       },
       {
-        __typename: 'Author',
+        __typename: 'Listing',
         id: '2',
-        name: 'chang',
-        listing: [
-          {
-            __typename: 'Listing',
-            id: '67',
-            title: 'Large Trampoline',
-            author: {
-              __typename: 'Author',
-              id: '2',
-              name: 'chang',
-            },
-          },
-          {
-            __typename: 'Listing',
-            id: '68',
-            title: 'big bowl of jello',
-            author: {
-              __typename: 'Author',
-              id: '2',
-              name: 'chang',
-            },
-          },
-        ],
-      },
-      {
-        __typename: 'Author',
-        id: '3',
-        name: 'joel',
-        listing: [
-          {
-            __typename: 'Listing',
-            id: '53',
-            title: 'Television',
-            author: {
-              __typename: 'Author',
-              id: '3',
-              name: 'joel',
-            },
-          },
-        ],
+        title: 'Small Trampoline',
+        author: {
+          __typename: 'Author',
+          id: '2',
+          name: 'Joel',
+        },
       },
     ],
   },
@@ -76,7 +47,7 @@ const cacheConfig = {
 
 const charon = new Charon(cacheConfig);
 
-const query = `
+const queryOne = `
   query getAuthorById($id: ID!) {
     author (id: $id) {
       name
@@ -87,17 +58,17 @@ const query = `
 }
 `;
 const variables = {
-  id: 3,
+  id: 1,
 };
 /* ------------------------------------------ */
 
-charon.addResult(result);
+charon.addResult(result, query);
 const data = charon.cache;
 
 console.log('data, ', data);
 console.log('--------------------------------------');
 
-const yesyesyes = JSON.stringify(charon.getQueriedData(query, variables), null, 2);
+const yesyesyes = JSON.stringify(charon.getQueriedData(queryOne, variables), null, 2);
 console.log('did it work????: ', yesyesyes);
 
 const addedData = {

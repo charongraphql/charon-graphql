@@ -4,15 +4,13 @@ import Listing from '../demo_one/Listing';
 import Pagination from '../Pagination';
 import gql from './gqlQueries';
 
-const ListingsContainer = ({ setListings, listings }) => {
-  // const [listings, setListings] = useState([]);
+const ListingsContainerVanilla = ({ setListings, listings }) => {
   const [initialized, setInitialized] = useState(false);
-  console.log('Listing container');
   // component did mount/update, setListing to fetched data.
   useEffect(() => {
     if (!initialized) {
-      gql.getListings().then(data => {
-        setListings(data.data.listings); // really???
+      gql.getListings().then(res => {
+        setListings(res.data.listings);
       });
       setInitialized(true);
     }
@@ -45,10 +43,7 @@ const ListingsContainer = ({ setListings, listings }) => {
 
   return (
     <div className="listings-container">
-      <div className="listings">
-        {/* displaying mapped components */}
-        {getAllListing()}
-      </div>
+      <div className="listings">{getAllListing()}</div>
       <div className="listing-pagination">
         <Pagination />
       </div>
@@ -56,4 +51,4 @@ const ListingsContainer = ({ setListings, listings }) => {
   );
 };
 
-export default ListingsContainer;
+export default ListingsContainerVanilla;

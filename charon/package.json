@@ -1,0 +1,36 @@
+{
+  "name": "charon-graphql",
+  "version": "1.0.4",
+  "description": "Charon offers a simple API and an opionated method for normalizing and storing your query data, so data can’t be stored twice. This results in more reliable updating and manipulating of cached data.",
+  "main": "index.js",
+  "jest": {
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>__tests__/setup/setupEnzyme.js"
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/__tests__/setup"
+    ]
+  },
+  "scripts": {
+    "test": "jest --watchAll --coverage"
+  },
+  "keywords": [
+    "charon",
+    "graphQL",
+    "graph",
+    "cache",
+    "invalidation",
+    "charon-graphql",
+    "npm"
+  ],
+  "author": "Chang Moon, Joel Burton, Ben Woodson",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.5.0"
+  },
+  "dependencies": {
+    "shorthash": "0.0.2"
+  }
+}

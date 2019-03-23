@@ -16,7 +16,7 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "dev": "webpack-dev-server",
-    "build": "webpack -w",
+    "build": "webpack",
     "test": "jest --watchAll --coverage"
   },
   "author": "",
@@ -38,6 +38,7 @@
   "dependencies": {
     "apollo-boost": "^0.1.28",
     "babel-polyfill": "^6.26.0",
+    "charon-graphql": "^1.0.4",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "enzyme": "^3.8.0",

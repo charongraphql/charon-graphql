@@ -1,29 +1,41 @@
+import charon from './cache';
+
 const gql = {
   getListings: () => {
-    return fetch('/graphql', {
+    const query = `{ 
+      listings {
+        __typename 
+        id 
+        title 
+        author { 
+          __typename
+          id 
+          name 
+        } 
+      } 
+    }`;
+    return fetch('/api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        query: `{ 
-          listings { 
-            id 
-            title 
-            author { 
-              id name 
-            } 
-          } 
-        }`,
+        query,
       }),
     })
       .then(r => r.json())
-      .then(data => data);
+      .then(data => {
+        console.log('the actual data::: ', JSON.stringify(data, null, 2));
+        charon.addResult(data, query);
+        console.log('the charon cache::: ', JSON.stringify(charon.cache, null, 2));
+
+        return data;
+      });
   },
 
   getAuthors: () => {
-    return fetch('/graphql', {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +44,9 @@ const gql = {
       body: JSON.stringify({
         query: `{ 
         authors { 
-          id name 
+          __typename
+          id 
+          name 
         } 
       }`,
       }),
@@ -41,8 +55,8 @@ const gql = {
       .then(data => data);
   },
 
-  addListing: (id, title) => {
-    return fetch('/graphql', {
+  addListing: (title, id) => {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,11 +77,13 @@ const gql = {
       }),
     })
       .then(r => r.json())
-      .then(data => data);
+      .then(data => {
+        return data;
+      });
   },
 
   deleteListing: id => {
-    return fetch('/graphql', {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

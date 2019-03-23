@@ -2,6 +2,8 @@ import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import CharonsList from './demo_one/CharonsList';
+import CharonsListVanilla from './demo_two/CharonsListVanilla';
+
 // Apollo Client Setup
 const client = new ApolloClient({
   // server endpoint
@@ -13,15 +15,15 @@ const DemoAppView = ({ match }) => {
     if (match.params.demo === 'demo1') {
       return (
         <ApolloProvider client={client}>
-          <CharonsList apollo />
+          <CharonsList />
         </ApolloProvider>
       );
     }
     if (match.params.demo === 'demo2') {
-      return <CharonsList apollo={false} />;
+      return <CharonsListVanilla />;
     }
     if (match.params.demo === 'demo3') {
-      return <CharonsList />;
+      return <div> coming soon </div>;
     }
     return <span>Error...</span>;
   };

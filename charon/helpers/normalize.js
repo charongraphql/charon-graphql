@@ -8,14 +8,14 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   normalizeObj object uses the uniqueSchemaFields object
   to determine which property to use as the unique identifier
 */
-const generateKeyFromTypeAndId = obj => {
-  const schemaType = obj.__typename;
+const generateKeyFromTypeAndId = (obj, query) => {
+  const schemaType = obj.__typename ? obj.__typename : query;
   const field = uniqueSchemaFields.getField(schemaType);
-  const id = obj[field];
+  const id = obj[field] ? obj[field] : '';
   return `${schemaType}:${id}`;
 };
 
-function normalize(data) {
+function normalize(data, query) {
   const flat = {};
 
   // chose to use object to act as queue
@@ -28,7 +28,6 @@ function normalize(data) {
   const cacheAndQueue = (key, obj) => {
     // store obj in cache under key if it doesn't exist there yet
     if (flat[key] === undefined) flat[key] = obj;
-
     // add key to queue
     queue[enqueueIndex] = key;
 
@@ -45,7 +44,7 @@ function normalize(data) {
     return key;
   };
 
-  const normalizeObject = (obj) => {
+  const normalizeObject = obj => {
     const normal = {};
     Object.entries(obj).forEach(([key, value]) => {
       // check if value at key is array
@@ -55,7 +54,7 @@ function normalize(data) {
         value.forEach((element, i) => {
           let nextPush = element;
           if (isObject(element)) {
-            const uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
+            const uniqueKey = generateKeyFromTypeAndId(element);
             cacheAndQueue(uniqueKey, element);
             nextPush = uniqueKey;
           }
@@ -64,7 +63,7 @@ function normalize(data) {
 
         // check if value at key is object
       } else if (isObject(value)) {
-        const uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
+        const uniqueKey = generateKeyFromTypeAndId(value);
         cacheAndQueue(uniqueKey, value);
         normal[key] = uniqueKey;
         // value is neither array or object
@@ -77,13 +76,13 @@ function normalize(data) {
 
   // create keys and normalize object in topmost level
   // have to access the data object to get object
-  Object.values(data).forEach((value) => {
+  Object.values(data).forEach(value => {
     let uniqueKey;
     // handle arrays
     if (Array.isArray(value)) {
-      value.forEach((element) => {
+      value.forEach(element => {
         if (isObject(element)) {
-          uniqueKey = generateKeyFromTypeAndId(element, uniqueSchemaFields);
+          uniqueKey = generateKeyFromTypeAndId(element);
           cacheAndQueue(uniqueKey, element);
         }
       });
@@ -91,7 +90,7 @@ function normalize(data) {
 
     // handle objects
     if (isObject(value)) {
-      uniqueKey = generateKeyFromTypeAndId(value, uniqueSchemaFields);
+      uniqueKey = generateKeyFromTypeAndId(value, query);
       cacheAndQueue(uniqueKey, value);
     }
   });

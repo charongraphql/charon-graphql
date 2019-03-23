@@ -9,7 +9,6 @@ const ListingCreator = props => {
     if (!props.getListingsQuery.loading) {
       // waits till loading complete to set correct length
       setListingsCount(props.listings.length);
-      console.log(props.listings);
     }
   });
   // creates flag to ensure useEffect does not perpetually fetch listings
@@ -20,8 +19,6 @@ const ListingCreator = props => {
     // without this initialized check useEffect will also act like compDidUpdate
     if (!props.getListingsQuery.loading && !initialized) {
       setListingsCount(props.getListingsQuery.listings.length);
-
-      // console.log('this should only be called when page refreshes');
       setInitialized(true);
     }
   });
@@ -43,23 +40,14 @@ const ListingCreator = props => {
 
   const addListing = e => {
     e.preventDefault();
-    // TODO: send data to db w/ author_id
     if (title) {
       if (authorId) {
-        // passed in from queries module
-        // call to add item to db -> hits endpoint which holds schema -> once called, that sends to db
         props
           .addListingMutation({
             variables: {
               title,
               authorId,
             },
-            // TODO: check if there's a way to have addListingMutation return newly created listing without making a second call
-            // refetchQueries: [
-            //   {
-            //     query: getListingsQuery, // why dont we need to bind this to component?
-            //   },
-            // ],
           })
           .then(res => {
             const addedListing = res.data.addListing;
@@ -78,8 +66,6 @@ const ListingCreator = props => {
           .catch(err => {
             throw err;
           });
-        // if we can get mutation to return listing we can refactor lines 68-75
-        // updating state with new listing
       }
     }
   };
@@ -93,7 +79,6 @@ const ListingCreator = props => {
     return data.authors.map(author => (
       // jsx / html issue
       // option tag can only take one value attribute
-      // is there a better way to store auth id and name ?
       <option key={author.id} value={author.id}>
         {author.name}
       </option>

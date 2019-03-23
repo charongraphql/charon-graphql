@@ -13,3 +13,5 @@ commit
 .DS_Store
 
 coverage
+
+dummyData.js

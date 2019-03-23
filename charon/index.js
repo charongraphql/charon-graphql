@@ -1,8 +1,10 @@
 /* eslint-disable class-methods-use-this */
+const sh = require('shorthash');
 const generateCharonKeyFromQuery = require('./helpers/generateCharonKeyFromQuery');
 const parseQueryForFields = require('./helpers/parseQueryForFields');
 const normalize = require('./helpers/normalize');
 const deNormalize = require('./helpers/deNormalize');
+const deepObjectDotAssign = require('./helpers/deepObjectDotAssign');
 
 console.log(`\nrun @ ${new Date().toLocaleTimeString('en-US')}\n`);
 
@@ -39,8 +41,9 @@ class Charon {
     console.log('contacting server...');
   }
 
-  addResult(queryResult) {
-    const normalized = normalize(queryResult, this.uniqueSchemaFields);
+  addResult(queryResult, query) {
+    // shorthen query string with hash
+    const normalized = normalize(queryResult, sh.unique(query));
     this.cache = { ...this.cache, ...normalized };
   }
 
@@ -64,47 +67,11 @@ class Charon {
   checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
     const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
-    return this.deepObjectDotAssign(queryFields, rawFromCache);
-  }
-
-  deepObjectDotAssign(target, source) {
-    const err = [];
-    Object.entries(target).forEach((entry) => {
-      const key = entry[0];
-      const value = entry[1];
-      if (!source[key]) {
-        err.push(entry);
-      } else {
-        if (target[key].constructor === Object) {
-          const temp = this.deepObjectDotAssign(target[key], source[key]);
-          if (!temp.err) {
-          target[key] = temp.target;
-          } else {
-            err.push(...temp.err);
-          }
-        } else if (target[key].constructor === Array) {
-          // how do i find out which object from the target correlates to the object in the array?
-          // they can, and maybe will be out of order
-          target[key].forEach((nestedObj, index) => {
-            const temp = this.deepObjectDotAssign(target[key][index], source[key][index]);
-            if (!temp.err) {
-            target[key][index] = temp.target;
-          }
-          else {
-            err.push(...temp.err);
-          }
-          });
-        } else {
-          target[key] = source[key];
-        }
-      }
-    });
-    return { target, err };
+    return deepObjectDotAssign(queryFields, rawFromCache);
   }
 
   getAllCachedData() {
     const nestedData = {};
-
     Object.entries(this.cache).forEach(([charonKey, queryBody]) => {
       // const field = cacheKey.toLowerCase().replace(/(:)(?<=:)\S+/g, 's');
       nestedData[charonKey] = deNormalize(queryBody, this.cache);
@@ -113,8 +80,9 @@ class Charon {
   }
 
   getQueriedData(query, variables) {
-    if (this.cache[query]) {
-      return { query: deNormalize(this.cache[query], this.cache) };
+    const queryKey = `${sh.unique(query)}:`;
+    if (this.cache[queryKey]) {
+      return { query: deNormalize(this.cache[queryKey], this.cache) };
     }
     const charonKey = generateCharonKeyFromQuery(query, variables);
     if (this.cache[charonKey]) {

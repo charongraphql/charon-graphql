@@ -22,18 +22,21 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
   devServer: {
     contentBase: './dist',
     hot: true,
+    open: true,
+    publicPath: '/',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
-  plugins: [
-    new HotModuleReplacementPlugin(),
-  ],
+  plugins: [new HotModuleReplacementPlugin()],
 };
