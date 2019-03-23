@@ -12,7 +12,7 @@ test('should checkCache and return data', () => {
 });
 
 test('should add gql result to the cache', () => {
-  const addedGqlResult = const gqlResult = {
+  const addedGqlResult = {
     data: {
       listings: [
         {
