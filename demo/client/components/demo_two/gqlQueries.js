@@ -28,7 +28,8 @@ const gql = {
     })
       .then(r => r.json())
       .then(data => {
-        this.cache.addResult(data);
+        // console.log('this.cache:: ', this.cache);
+        // this.cache.addResult(data);
         return data;
       });
   },
@@ -75,7 +76,6 @@ const gql = {
     })
       .then(r => r.json())
       .then(data => {
-        this.cache.addResult(data);
         return data;
       });
   },
