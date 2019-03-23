@@ -11,7 +11,7 @@ const CharonsListVanilla = () => {
 
   return (
     <div className="charons-list">
-      {/* <ListingCreatorVanilla listings={listings} setListings={setListings} /> */}
+      <ListingCreatorVanilla listings={listings} setListings={setListings} />
       <ListingsContainerVanilla listings={listings} setListings={setListings} />
     </div>
   );

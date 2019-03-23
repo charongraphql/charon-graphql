@@ -1,12 +1,6 @@
-import Charon from 'charon-graphql';
-
-const config = {
-  uri: '/graphql',
-};
+import charon from './cache';
 
 const gql = {
-  cache: new Charon(config),
-
   getListings: () => {
     return fetch('/api/graphql', {
       method: 'POST',
@@ -28,14 +22,14 @@ const gql = {
     })
       .then(r => r.json())
       .then(data => {
-        // console.log('this.cache:: ', this.cache);
+        console.log('this.cache:: ', charon);
         // this.cache.addResult(data);
         return data;
       });
   },
 
   getAuthors: () => {
-    return fetch('/graphql', {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +38,8 @@ const gql = {
       body: JSON.stringify({
         query: `{ 
         authors { 
-          id name 
+          id 
+          name 
         } 
       }`,
       }),
@@ -54,7 +49,7 @@ const gql = {
   },
 
   addListing: (id, title) => {
-    return fetch('/graphql', {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +76,7 @@ const gql = {
   },
 
   deleteListing: id => {
-    return fetch('/graphql', {
+    return fetch('api/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

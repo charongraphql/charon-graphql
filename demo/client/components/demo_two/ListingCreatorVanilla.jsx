@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import gql from './gqlQueries';
 
-const ListingCreator = props => {
+const ListingCreatorVanilla = ({ setListings, listings }) => {
   const [listingsCount, setListingsCount] = useState(0);
   const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
   // combo of componentDidMount and componentDidUpdate
   useEffect(() => {
     if (initialized) {
       // waits till loading complete to set correct length
-      setListingsCount(props.listings.length);
+      setListingsCount(listings.length);
     }
   });
   // creates flag to ensure useEffect does not perpetually fetch listings
@@ -21,11 +20,12 @@ const ListingCreator = props => {
     // without this initialized check useEffect will also act like compDidUpdate
     if (!initialized) {
       //! props.getListingsQuery.loading &&
-      gql.getListings().then(data => {
-        setListingsCount(data.data.listings.length);
+      gql.getListings().then(res => {
+        setListingsCount(res.data.listings.length);
       });
-      gql.getAuthors().then(data => {
-        setAuthors(data.data.authors);
+      gql.getAuthors().then(res => {
+        console.log('authors', res);
+        setAuthors(res.data.authors);
       });
 
       // console.log('this should only be called when page refreshes');
@@ -61,7 +61,7 @@ const ListingCreator = props => {
             const addedListing = data.data.addListing;
             console.log(data.data.addListing);
             // Hooks setState can take in a callback! why do we not need to worry about effecting state directly?
-            props.setListings(listing =>
+            setListings(listing =>
               listing.concat({
                 id: addedListing.id,
                 title: addedListing.title,
@@ -80,7 +80,6 @@ const ListingCreator = props => {
   };
 
   const displayAuthors = () => {
-    console.log('what the fuck', authors);
     return authors.map(author => (
       // jsx / html issue
       // option tag can only take one value attribute
@@ -134,4 +133,4 @@ const ListingCreator = props => {
   );
 };
 
-export default ListingCreator;
+export default ListingCreatorVanilla;

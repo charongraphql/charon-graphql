@@ -4,15 +4,14 @@ import Listing from '../demo_one/Listing';
 import Pagination from '../Pagination';
 import gql from './gqlQueries';
 
-const ListingsContainer = ({ setListings, listings }) => {
+const ListingsContainerVanilla = ({ setListings, listings }) => {
   // const [listings, setListings] = useState([]);
   const [initialized, setInitialized] = useState(false);
   // component did mount/update, setListing to fetched data.
   useEffect(() => {
     if (!initialized) {
-      console.log('should show up once');
-      gql.getListings().then(data => {
-        setListings(data.data.listings); // really???
+      gql.getListings().then(res => {
+        setListings(res.data.listings); // really???
       });
       setInitialized(true);
     }
@@ -56,4 +55,4 @@ const ListingsContainer = ({ setListings, listings }) => {
   );
 };
 
-export default ListingsContainer;
+export default ListingsContainerVanilla;
