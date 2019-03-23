@@ -5,12 +5,9 @@
   "main": "index.js",
   "jest": {
     "verbose": true,
-    "setupFilesAfterEnv": [
-      "<rootDir>__tests__/setup/setupEnzyme.js"
-    ],
     "watchPathIgnorePatterns": [
       "<rootDir>/node_modules/",
-      "<rootDir>/__tests__/setup"
+      "<rootDir>/__test__/helpers/dummyData.js"
     ]
   },
   "scripts": {

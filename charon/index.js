@@ -41,6 +41,11 @@ class Charon {
     console.log('contacting server...');
   }
 
+  checkCache(query) {
+    const hashKey = sh.unique(query);
+    return this.cache[`${hashKey}:`];
+  }
+
   addResult(queryResult, query) {
     // shorthen query string with hash
     const normalized = normalize(queryResult, sh.unique(query));
@@ -79,6 +84,7 @@ class Charon {
     return nestedData;
   }
 
+  // getting a specific listing
   getQueriedData(query, variables) {
     const queryKey = `${sh.unique(query)}:`;
     if (this.cache[queryKey]) {
