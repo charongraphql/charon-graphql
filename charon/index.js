@@ -41,6 +41,10 @@ class Charon {
     console.log('contacting server...');
   }
 
+  checkCache(query) {
+    return this.cache[sh.unique(query)];
+  }
+
   addResult(queryResult, query) {
     // shorthen query string with hash
     const normalized = normalize(queryResult, sh.unique(query));
@@ -67,6 +71,7 @@ class Charon {
   checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
     const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
+    console.log('asdfa', JSON.stringify(deepObjectDotAssign(queryFields, rawFromCache), null, 2));
     return deepObjectDotAssign(queryFields, rawFromCache);
   }
 
