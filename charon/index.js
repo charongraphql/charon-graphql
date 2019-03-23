@@ -42,7 +42,8 @@ class Charon {
   }
 
   checkCache(query) {
-    return this.cache[sh.unique(query)];
+    const hashKey = sh.unique(query);
+    return this.cache[`${hashKey}:`];
   }
 
   addResult(queryResult, query) {
@@ -71,7 +72,6 @@ class Charon {
   checkCacheForPartial(charonKey, query) {
     const queryFields = parseQueryForFields(query);
     const rawFromCache = deNormalize(this.cache[charonKey], this.cache);
-    console.log('asdfa', JSON.stringify(deepObjectDotAssign(queryFields, rawFromCache), null, 2));
     return deepObjectDotAssign(queryFields, rawFromCache);
   }
 
@@ -84,6 +84,7 @@ class Charon {
     return nestedData;
   }
 
+  // getting a specific listing
   getQueriedData(query, variables) {
     const queryKey = `${sh.unique(query)}:`;
     if (this.cache[queryKey]) {

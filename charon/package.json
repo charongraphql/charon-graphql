@@ -6,7 +6,8 @@
   "jest": {
     "verbose": true,
     "watchPathIgnorePatterns": [
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/",
+      "<rootDir>/__test__/helpers/dummyData.js"
     ]
   },
   "scripts": {
