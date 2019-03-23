@@ -10,11 +10,14 @@ const gql = {
       },
       body: JSON.stringify({
         query: `{ 
-          listings { 
+          listings {
+            __typename 
             id 
             title 
             author { 
-              id name 
+              __typename
+              id 
+              name 
             } 
           } 
         }`,
@@ -22,8 +25,10 @@ const gql = {
     })
       .then(r => r.json())
       .then(data => {
-        console.log('this.cache:: ', charon);
-        // this.cache.addResult(data);
+        console.log('the actual data::: ', JSON.stringify(data, null, 2));
+        charon.addResult(data);
+        console.log('the charon cache::: ', JSON.stringify(charon.cache, null, 2));
+
         return data;
       });
   },
@@ -38,6 +43,7 @@ const gql = {
       body: JSON.stringify({
         query: `{ 
         authors { 
+          __typename
           id 
           name 
         } 

@@ -9,9 +9,9 @@ const isObject = val => val instanceof Object && val.constructor === Object;
   to determine which property to use as the unique identifier
 */
 const generateKeyFromTypeAndId = obj => {
-  const schemaType = obj.__typename;
+  const schemaType = obj.__typename ? obj.__typename : 'aishdf';
   const field = uniqueSchemaFields.getField(schemaType);
-  const id = obj[field];
+  const id = obj[field] ? obj[field] : 'asdfas';
   return `${schemaType}:${id}`;
 };
 

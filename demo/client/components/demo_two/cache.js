@@ -1,4 +1,4 @@
-import Charon from 'charon-graphql';
+import Charon from '../../../../charon/index';
 
 const config = {
   uri: 'api/graphql',
